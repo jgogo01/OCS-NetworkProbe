@@ -1,11 +1,8 @@
-FROM python:3.12.3
-RUN apt-get update && apt-get install -y libgl1-mesa-glx
+FROM python:3.12.3-alpine
 WORKDIR /app
 COPY . /app/
-
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-RUN apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/*
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
 EXPOSE 4000
 
 CMD ["python", "main.py"]
