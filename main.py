@@ -1,4 +1,5 @@
 from utils.validation import *
+from utils.setup import *
 from fastapi import FastAPI
 from router import ping, speedtest, nic
 import nest_asyncio
