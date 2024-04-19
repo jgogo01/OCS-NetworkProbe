@@ -15,8 +15,8 @@ class WifiFinder:
         self.main_dict = {}
 
     def run(self):
-        command = """iwlist wlp2s0 scan | grep -ioE 'ssid:"(.*{}.*)'"""
-        result = os.popen(command.format(self.ssid))
+        command = """iwlist {} scan | grep -ioE 'ssid:"(.*{}.*)'"""
+        result = os.popen(command.format(self.interface_name, self.ssid))
         result = list(result)
 
         if "Device or resource busy" in result:
