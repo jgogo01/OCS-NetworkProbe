@@ -33,21 +33,3 @@ INTERFACE_WIFI = os.getenv("INTERFACE_WIFI")
 if not INTERFACE_WIFI:
     print("INTERFACE_WIFI is missing in environment variables.")
     sys.exit(1)
-
-# Check if WIFI_SSID is missing
-WIFI_SSID = os.getenv("WIFI_SSID")
-if not WIFI_SSID:
-    print("WIFI_SSID is missing in environment variables.")
-    sys.exit(1)
-
-# Check if WIFI_BAND is missing
-WIFI_BAND = os.getenv("WIFI_BAND")
-if not WIFI_BAND:
-    print("WIFI_BAND is missing in environment variables.")
-    sys.exit(1)
-
-# Check if WIFI_PASSWORD is missing
-WIFI_PASSWORD = os.getenv("WIFI_PASSWORD")
-if not WIFI_PASSWORD:
-    print("WIFI_PASSWORD is missing in environment variables.")
-    sys.exit(1)
