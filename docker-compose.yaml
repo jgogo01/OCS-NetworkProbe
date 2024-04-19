@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  ocs-probe-network:
+    image: jgogo01/ocs-probe-network 
+    ports:
+      - 4000:4000
+    environment:
+    - INTERNAL_GATEWAY=
+    - EXTERNAL_GATEWAY=
+    - PING_COUNT=5
+    - INTERFACE_LAN=enp2s0
+    - INTERFACE_WIFI=wlp1s0
+    - SSID=
+    - PASSWORD=
+    network_mode: host
