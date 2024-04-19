@@ -1,48 +1,50 @@
-import platform
-import subprocess
 import os
 from dotenv import load_dotenv
-from utils.function import *
 
 load_dotenv()
 
 SSID = os.getenv("SSID")
-ENCRYPTION = os.getenv("ENCRYPTION")
-AUTHENTICATION = os.getenv("AUTHENTICATION")
 PASSWORD = os.getenv("PASSWORD")
+INTERFACE_WIFI = os.getenv("INTERFACE_WIFI")
 
-#802.1x
-USEONEX = os.getenv("USEONEX")
-EAP_METHOD = os.getenv("EAP_METHOD")
-PHASE2_AUTH = os.getenv("PHASE2_AUTH")
-DOT1X_USERNAME = os.getenv("DOT1X_USERNAME")
-DOT1X_PASSWORD = os.getenv("DOT1X_PASSWORD")
+class WifiFinder:
+    def __init__(self, *args, **kwargs):
+        self.ssid = kwargs['ssid']
+        self.password = kwargs['password']
+        self.interface_name = kwargs['interface']
+        self.main_dict = {}
 
-def connect_windows():
-    command = "netsh wlan connect name=\"" + SSID + "\" ssid=\"" + SSID + "\" interface=Wi-Fi"
-    os.system(command)
+    def run(self):
+        command = """iwlist wlp2s0 scan | grep -ioE 'ssid:"(.*{}.*)'"""
+        result = os.popen(command.format(self.ssid))
+        result = list(result)
 
-def connect_linux():
-    if USEONEX:
-        add_connection_command = ["nmcli", "device", "wifi", "connect", SSID, "password", PASSWORD, "802-1x.eap",
-                                  EAP_METHOD, "802-1x.phase2-auth", PHASE2_AUTH, "802-1x.identity", DOT1X_USERNAME, 
-                                  "802-1x.password", DOT1X_PASSWORD]
-    else:
-        if ENCRYPTION.lower() == "none":
-            add_connection_command = ["nmcli", "device", "wifi", "connect", SSID]
+        if "Device or resource busy" in result:
+                return None
         else:
-            add_connection_command = ["nmcli", "device", "wifi", "connect", SSID, "password", PASSWORD]
-    try:
-        subprocess.run(add_connection_command, check=True)
-        print("Connected to", SSID)
-    except subprocess.CalledProcessError:
-        print("Failed to connect to", SSID)
+            ssid_list = [item.lstrip('SSID:').strip('"\n') for item in result]
+            print("Successfully get ssids {}".format(str(ssid_list)))
 
-if platform.system() == "Windows":
-    create_new_connection_windows()
-    connect_windows()
-    os.remove(SSID + ".xml")
-elif platform.system() == "Linux":
-    connect_linux()
-else:
-    print("Unsupported operating system")
+        for name in ssid_list:
+            try:
+                result = self.connection(name)
+            except Exception as exp:
+                print("Couldn't connect to name : {}. {}".format(name, exp))
+            else:
+                if result:
+                    print("Successfully connected to {}".format(name))
+
+    def connection(self, name):
+        try:
+            os.system("nmcli d wifi connect {} password {} iface {}".format(name,
+       self.password,
+       self.interface_name))
+        except:
+            raise
+        else:
+            return True
+
+
+
+WF = WifiFinder(ssid=SSID, password=PASSWORD, interface=INTERFACE_WIFI)
+WF.run()
