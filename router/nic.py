@@ -1,5 +1,9 @@
 from fastapi import APIRouter
 import netifaces
+import sys
+
+# Disable Cache
+sys.dont_write_bytecode = True
 
 router = APIRouter()
 

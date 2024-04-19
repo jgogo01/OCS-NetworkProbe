@@ -1,14 +1,16 @@
 from fastapi import APIRouter
-from dotenv import load_dotenv, dotenv_values
 import datetime
 import speedtest
-import psutil
 import netifaces
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def bytesToMb(bytes):
-  KB = 1024 # One Kilobyte is 1024 bytes
-  MB = KB * 1024 # One MB is 1024 KB
-  return int(bytes/MB)
+    KB = 1024  # One Kilobyte is 1024 bytes
+    MB = KB * 1024  # One MB is 1024 KB
+    return int(bytes / MB)
 
 def speedtestByInterface(interface):
     try:
@@ -19,10 +21,7 @@ def speedtestByInterface(interface):
         raise ValueError("Unable to connect NIC, please recheck the interface name.")
     except Exception as e:
         raise ValueError(str(e))
-    
-#Load Environment
-load_dotenv()
-env = dotenv_values(".env")
+
 router = APIRouter()
 
 @router.get("/speedtest")
@@ -32,15 +31,14 @@ async def main():
     data = {}
 
     try:
-        lanST = speedtestByInterface(env["INTERFACE_LAN"])
-        wifiST = speedtestByInterface(env["INTERFACE_WIFI"])
+        lanST = speedtestByInterface(os.getenv("INTERFACE_LAN"))
+        wifiST = speedtestByInterface(os.getenv("INTERFACE_WIFI"))
 
         data = {
             "timeStamp": datetime.datetime.now(),
-            "nic": list((psutil.net_if_addrs().keys())),
             "lan": {
                 "src": lanST._source_address,
-                "speedtest":{
+                "speedtest": {
                     "server": lanST.get_best_server(),
                     "download": bytesToMb(lanST.download()),
                     "upload": bytesToMb(lanST.upload()),
@@ -48,7 +46,7 @@ async def main():
             },
             "wifi": {
                 "src": wifiST._source_address,
-                "speedtest":{
+                "speedtest": {
                     "server": wifiST.get_best_server(),
                     "download": bytesToMb(wifiST.download()),
                     "upload": bytesToMb(wifiST.upload()),

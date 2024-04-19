@@ -1,9 +1,11 @@
 from fastapi import APIRouter
 from icmplib import ping
-from dotenv import load_dotenv, dotenv_values
 import datetime
-import psutil
 import netifaces
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class PingResults:
     def __init__(self, source, internal, external):
@@ -11,20 +13,17 @@ class PingResults:
         self.internal = internal
         self.external = external
 
-def ping_by_interface(interface, env):
+def ping_by_interface(interface):
     try:
         source = netifaces.ifaddresses(interface)[netifaces.AF_INET][0]['addr']
-        internal = ping(env["INTERNAL_GATEWAY"], count=int(env["PING_COUNT"]), source=source, interval=0.2)
-        external = ping(env["EXTERNAL_GATEWAY"], count=int(env["PING_COUNT"]), source=source, interval=0.2)
+        internal = ping(os.getenv("INTERNAL_GATEWAY"), count=int(os.getenv("PING_COUNT")), source=source, interval=0.2)
+        external = ping(os.getenv("EXTERNAL_GATEWAY"), count=int(os.getenv("PING_COUNT")), source=source, interval=0.2)
         return PingResults(source, internal, external)
     except KeyError:
         raise ValueError("Unable to connect NIC, please recheck the interface name.")
     except Exception as e:
         raise ValueError(str(e))
 
-# Load Environment
-load_dotenv()
-env = dotenv_values(".env")
 router = APIRouter()
 
 @router.get("/ping")
@@ -34,12 +33,11 @@ async def main():
     data = {}
 
     try:
-        lan_ping = ping_by_interface(env["INTERFACE_LAN"], env)
-        wifi_ping = ping_by_interface(env["INTERFACE_WIFI"], env)
+        lan_ping = ping_by_interface(os.getenv("INTERFACE_LAN"))
+        wifi_ping = ping_by_interface(os.getenv("INTERFACE_WIFI"))
 
         data = {
             "timeStamp": datetime.datetime.now(),
-            "nic": list(psutil.net_if_addrs().keys()),
             "lan": {
                 "src": lan_ping.source,
                 "ping": {
