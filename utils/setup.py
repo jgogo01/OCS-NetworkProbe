@@ -1,29 +1,48 @@
-import wifi_connection
+import platform
+import subprocess
 import os
-import sys
 from dotenv import load_dotenv
+from utils.function import *
 
 load_dotenv()
-INTERFACE_WIFI_FOR_SETUP = os.getenv("INTERFACE_WIFI_FOR_SETUP")
+
 SSID = os.getenv("SSID")
+ENCRYPTION = os.getenv("ENCRYPTION")
+AUTHENTICATION = os.getenv("AUTHENTICATION")
 PASSWORD = os.getenv("PASSWORD")
-BAND = os.getenv("BAND")
 
-# Get the list of available network interfaces
-interfaces = wifi_connection.get_interfaces()
-print("Available interfaces:", interfaces)
+#802.1x
+USEONEX = os.getenv("USEONEX")
+EAP_METHOD = os.getenv("EAP_METHOD")
+PHASE2_AUTH = os.getenv("PHASE2_AUTH")
+DOT1X_USERNAME = os.getenv("DOT1X_USERNAME")
+DOT1X_PASSWORD = os.getenv("DOT1X_PASSWORD")
 
-# Check if INTERFACE_WIFI_FOR_SETUP is valid
-if not wifi_connection.get_network_list(INTERFACE_WIFI_FOR_SETUP):
-        print("INTERFACE_WIFI_FOR_SETUP isn't correct. Please recheck the interface name.")
-        sys.exit(1)
+def connect_windows():
+    command = "netsh wlan connect name=\"" + SSID + "\" ssid=\"" + SSID + "\" interface=Wi-Fi"
+    os.system(command)
 
-# Set Profile
-wifi_connection.set_profile(INTERFACE_WIFI_FOR_SETUP, BAND, SSID, PASSWORD)
+def connect_linux():
+    if USEONEX:
+        add_connection_command = ["nmcli", "device", "wifi", "connect", SSID, "password", PASSWORD, "802-1x.eap",
+                                  EAP_METHOD, "802-1x.phase2-auth", PHASE2_AUTH, "802-1x.identity", DOT1X_USERNAME, 
+                                  "802-1x.password", DOT1X_PASSWORD]
+    else:
+        if ENCRYPTION.lower() == "none":
+            add_connection_command = ["nmcli", "device", "wifi", "connect", SSID]
+        else:
+            add_connection_command = ["nmcli", "device", "wifi", "connect", SSID, "password", PASSWORD]
+    try:
+        subprocess.run(add_connection_command, check=True)
+        print("Connected to", SSID)
+    except subprocess.CalledProcessError:
+        print("Failed to connect to", SSID)
 
-# Connect to Wi-Fi
-if not wifi_connection.connect(INTERFACE_WIFI_FOR_SETUP, SSID):
-    print("Wi-Fi cannot connect. Please recheck the password.")
-    sys.exit(1)
-    
-print("The Wi-Fi connection was successful.")
+if platform.system() == "Windows":
+    create_new_connection_windows()
+    connect_windows()
+    os.remove(SSID + ".xml")
+elif platform.system() == "Linux":
+    connect_linux()
+else:
+    print("Unsupported operating system")
