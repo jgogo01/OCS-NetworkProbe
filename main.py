@@ -1,25 +1,20 @@
 import sys
-#Disable Bytecode
 sys.dont_write_bytecode = True
 
-from utils.validation import *
-from utils.setup import *
 from fastapi import FastAPI
-from router import ping, speedtest, nic
+from routes import metrics
 import nest_asyncio
 import uvicorn
-
+from utils.prometheus import *
 
 #FastAPI
 app = FastAPI()
-app.include_router(ping.router)
-app.include_router(speedtest.router)
-app.include_router(nic.router)
+app.include_router(metrics.router)
 
 @app.get("/")
 async def main():
     status = 200
-    message = "Welcome to OCS API Probe"
+    message = "Welcome to OCS Explorer Probe"
     data = {}
 
     return {
