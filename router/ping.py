@@ -65,7 +65,7 @@ async def main():
                 "src": wifi_ping.source,
                 "ping": {
                     "internal": {
-                        "host": wifi_ping.internal.address,
+                        "dst": wifi_ping.internal.address,
                         "minRTT": wifi_ping.internal.min_rtt,
                         "maxRTT": wifi_ping.internal.max_rtt,
                         "avgRTT": wifi_ping.internal.avg_rtt,
@@ -74,7 +74,7 @@ async def main():
                         "packetsLoss": wifi_ping.internal.packet_loss
                     },
                     "external": {
-                        "host": wifi_ping.external.address,
+                        "dst": wifi_ping.external.address,
                         "minRTT": wifi_ping.external.min_rtt,
                         "maxRTT": wifi_ping.external.max_rtt,
                         "avgRTT": wifi_ping.external.avg_rtt,
