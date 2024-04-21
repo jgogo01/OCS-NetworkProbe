@@ -7,6 +7,13 @@ from schemas.speedtest import SpeedtestResult
 from schemas.ping import PingResult
     
 router = APIRouter()
+@router.get("/metrics")
+async def metrics():
+    return Response(
+        media_type="text/plain",
+        content=generate_latest()
+        )
+
 @router.get("/metrics/speedtest/{dst}")
 async def metrics(dst: str):
     print(dst)
