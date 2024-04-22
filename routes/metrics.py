@@ -14,10 +14,9 @@ async def metrics():
         content=generate_latest()
         )
 
-@router.get("/metrics/speedtest/{dst}")
-async def metrics(dst: str):
-    print(dst)
-    speedtest = requests.get(f"http://{dst}/speedtest").json()
+@router.get("/metrics/speedtest/")
+async def metrics(target: str):
+    speedtest = requests.get(f"http://{target}/speedtest").json()
     result = SpeedtestResult(speedtest["status"], speedtest["message"], speedtest["data"])
     
     #Set Prometheus metrics
@@ -33,10 +32,9 @@ async def metrics(dst: str):
         content=generate_latest()
         )
     
-@router.get("/metrics/ping/{dst}")
-async def metrics(dst: str):
-    print(dst)
-    ping = requests.get(f"http://{dst}/ping").json()
+@router.get("/metrics/ping/")
+async def metrics(target: str):
+    ping = requests.get(f"http://{target}/ping").json()
     result = PingResult(ping["status"], ping["message"], ping["data"])
     
     print(result.data.lan.internal_ping)
