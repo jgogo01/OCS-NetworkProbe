@@ -13,4 +13,6 @@ services:
     - INTERFACE_WIFI=wlp1s0
     - SSID=
     - PASSWORD=
+    - LATITUDE=
+    - LONGITUDE=
     network_mode: host

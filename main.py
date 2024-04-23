@@ -8,7 +8,9 @@ from fastapi import FastAPI
 from router import ping, speedtest, nic
 import nest_asyncio
 import uvicorn
+from dotenv import load_dotenv
 
+load_dotenv()
 
 #FastAPI
 app = FastAPI()
@@ -20,7 +22,12 @@ app.include_router(nic.router)
 async def main():
     status = 200
     message = "Welcome to OCS API Probe"
-    data = {}
+    data = {
+        "location": {
+            "latitude": os.getenv("LATITUDE"),
+            "longitude": os.getenv("LONGITUDE")
+        }
+    }
 
     return {
         "status": status,

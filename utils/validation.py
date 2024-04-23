@@ -46,4 +46,16 @@ if not PASSWORD:
     print("PASSWORD is missing in environment variables.")
     sys.exit(1)
     
+# Check if LATITUDE is missing
+LATTITUDE = os.getenv("LATITUDE")
+if not LATTITUDE:
+    print("LATITUDE is missing in environment variables.")
+    sys.exit(1)
+    
+# Check if LONGITUDE is missing
+LONGITUDE = os.getenv("LONGITUDE")
+if not LONGITUDE:
+    print("LONGITUDE is missing in environment variables.")
+    sys.exit(1)
+    
 print("All required environment variables are present.")
