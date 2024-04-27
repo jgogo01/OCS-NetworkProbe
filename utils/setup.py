@@ -5,9 +5,9 @@ load_dotenv()
 
 SSID = os.getenv("SSID")
 PASSWORD = os.getenv("PASSWORD")
-INTERFACE_WIFI = os.getenv("INTERFACE_WIFI")
+INTERFACE_WLAN = os.getenv("INTERFACE_WLAN")
 
-class WifiFinder:
+class WLANFinder:
     def __init__(self, *args, **kwargs):
         self.ssid = kwargs['ssid']
         self.password = kwargs['password']
@@ -46,5 +46,5 @@ class WifiFinder:
 
 
 
-WF = WifiFinder(ssid=SSID, password=PASSWORD, interface=INTERFACE_WIFI)
+WF = WLANFinder(ssid=SSID, password=PASSWORD, interface=INTERFACE_WLAN)
 WF.run()

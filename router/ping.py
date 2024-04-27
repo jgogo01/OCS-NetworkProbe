@@ -34,7 +34,7 @@ async def main():
 
     try:
         lan_ping = ping_by_interface(os.getenv("INTERFACE_LAN"))
-        wifi_ping = ping_by_interface(os.getenv("INTERFACE_WIFI"))
+        wlan_ping = ping_by_interface(os.getenv("INTERFACE_WLAN"))
 
         data = {
             "timeStamp": datetime.datetime.now(),
@@ -61,26 +61,26 @@ async def main():
                     }
                 }
             },
-            "wifi": {
-                "src": wifi_ping.source,
+            "wlan": {
+                "src": wlan_ping.source,
                 "ping": {
                     "internal": {
-                        "dst": wifi_ping.internal.address,
-                        "minRTT": wifi_ping.internal.min_rtt,
-                        "maxRTT": wifi_ping.internal.max_rtt,
-                        "avgRTT": wifi_ping.internal.avg_rtt,
-                        "packetsSent": wifi_ping.internal.packets_sent,
-                        "packetsReceived": wifi_ping.internal.packets_received,
-                        "packetsLoss": wifi_ping.internal.packet_loss
+                        "dst": wlan_ping.internal.address,
+                        "minRTT": wlan_ping.internal.min_rtt,
+                        "maxRTT": wlan_ping.internal.max_rtt,
+                        "avgRTT": wlan_ping.internal.avg_rtt,
+                        "packetsSent": wlan_ping.internal.packets_sent,
+                        "packetsReceived": wlan_ping.internal.packets_received,
+                        "packetsLoss": wlan_ping.internal.packet_loss
                     },
                     "external": {
-                        "dst": wifi_ping.external.address,
-                        "minRTT": wifi_ping.external.min_rtt,
-                        "maxRTT": wifi_ping.external.max_rtt,
-                        "avgRTT": wifi_ping.external.avg_rtt,
-                        "packetsSent": wifi_ping.external.packets_sent,
-                        "packetsReceived": wifi_ping.external.packets_received,
-                        "packetsLoss": wifi_ping.external.packet_loss
+                        "dst": wlan_ping.external.address,
+                        "minRTT": wlan_ping.external.min_rtt,
+                        "maxRTT": wlan_ping.external.max_rtt,
+                        "avgRTT": wlan_ping.external.avg_rtt,
+                        "packetsSent": wlan_ping.external.packets_sent,
+                        "packetsReceived": wlan_ping.external.packets_received,
+                        "packetsLoss": wlan_ping.external.packet_loss
                     }
                 }
             }

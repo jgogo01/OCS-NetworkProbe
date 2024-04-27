@@ -30,7 +30,7 @@ async def main():
     
     try:
         LAN_IPV4, LAN_IPV6 = get_interface_ip_addresses(os.getenv("INTERFACE_LAN"))
-        WIFI_IPV4, WIFI_IPV6 = get_interface_ip_addresses(os.getenv("INTERFACE_WIFI"))
+        WLAN_IPV4, WLAN_IPV6 = get_interface_ip_addresses(os.getenv("INTERFACE_WLAN"))
         
         data = {
             "lan":{
@@ -38,10 +38,10 @@ async def main():
                 "ipv4": LAN_IPV4,
                 "ipv6": LAN_IPV6,
             },
-            "wifi":{
-                "ipv4_and_ipv6": True if WIFI_IPV4 is not None and WIFI_IPV6 is not None else False,
-                "ipv4": WIFI_IPV4,
-                "ipv6": WIFI_IPV6,
+            "wlan":{
+                "ipv4_and_ipv6": True if WLAN_IPV4 is not None and WLAN_IPV6 is not None else False,
+                "ipv4": WLAN_IPV4,
+                "ipv6": WLAN_IPV6,
             }
         }
     except Exception as e:

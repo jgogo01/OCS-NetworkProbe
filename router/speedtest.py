@@ -32,7 +32,7 @@ async def main():
 
     try:
         lanST = speedtestByInterface(os.getenv("INTERFACE_LAN"))
-        wifiST = speedtestByInterface(os.getenv("INTERFACE_WIFI"))
+        wlanST = speedtestByInterface(os.getenv("INTERFACE_WLAN"))
 
         data = {
             "timeStamp": datetime.datetime.now(),
@@ -44,12 +44,12 @@ async def main():
                     "upload": bytesToMb(lanST.upload()),
                 }
             },
-            "wifi": {
-                "src": wifiST._source_address,
+            "wlan": {
+                "src": wlanST._source_address,
                 "speedtest": {
-                    "server": wifiST.get_best_server(),
-                    "download": bytesToMb(wifiST.download()),
-                    "upload": bytesToMb(wifiST.upload()),
+                    "server": wlanST.get_best_server(),
+                    "download": bytesToMb(wlanST.download()),
+                    "upload": bytesToMb(wlanST.upload()),
                 }
             }
         }
