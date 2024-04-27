@@ -37,13 +37,11 @@ async def main():
                 "ipv4_and_ipv6": True if LAN_IPV4 is not None and LAN_IPV6 is not None else False,
                 "ipv4": LAN_IPV4,
                 "ipv6": LAN_IPV6,
-                "dns": LAN_DNS
             },
             "wifi":{
                 "ipv4_and_ipv6": True if WIFI_IPV4 is not None and WIFI_IPV6 is not None else False,
                 "ipv4": WIFI_IPV4,
                 "ipv6": WIFI_IPV6,
-                "dns": WIFI_DNS
             }
         }
     except Exception as e:
