@@ -4,19 +4,6 @@ from gpiozero import CPUTemperature
 import os
 import time
 
-def get_ipaddress_by_interface(interface):
-  #LAN IPV4 Address
-  try:
-    IPV4 = psutil.net_if_addrs()[interface][0].address
-  except Exception as e:
-    IPV4 = None
-  #LAN IPV6 Address
-  try:
-    IPV6 = psutil.net_if_addrs()[interface][1].address
-  except Exception as e:
-    IPV6 = None
-  return IPV4, IPV6
-
 def get_cpu_temp():
   try:
     CPU_TEMP = CPUTemperature().temperature
@@ -25,6 +12,7 @@ def get_cpu_temp():
   return CPU_TEMP
 
 router = APIRouter()
+
 @router.get("/general")
 async def main():
   status = 200
@@ -33,8 +21,6 @@ async def main():
   
   try: 
     CPU_TEMP = get_cpu_temp()
-    LAN_IPV4, LAN_IPV6 = get_ipaddress_by_interface(os.getenv("INTERFACE_LAN"))
-    WIFI_IPV4, WIFI_IPV6 = get_ipaddress_by_interface(os.getenv("INTERFACE_WIFI"))
     
     data = {
         "system": {
@@ -49,16 +35,6 @@ async def main():
               "available": psutil.virtual_memory().available,
               "total": psutil.virtual_memory().total,
           },
-          "network": {
-            "lan": {
-              "ipv4": LAN_IPV4,
-              "ipv6": LAN_IPV6,
-            },
-            "wifi": {
-              "ipv4": WIFI_IPV4,
-              "ipv6": WIFI_IPV6,
-            }
-          }
         },
         "uptime": time.time() - psutil.boot_time(),
         "location": {
