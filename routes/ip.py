@@ -13,12 +13,12 @@ async def metrics(target: str):
         
         #Set Prometheus metrics
         LAN_IP_ADDRESS.info({
-                "status": result.data.lan.ipv4_and_ipv6,
+                "status": 1 if result.data.lan.ipv4_and_ipv6 == True else 0,
                 "ipv4": result.data.lan.ipv4,
                 "ipv6": result.data.lan.ipv6
         })
         WLAN_IP_ADDRESS.info({
-                "status": result.data.wlan.ipv4_and_ipv6,
+                "status": 1 if result.data.wlan.ipv4_and_ipv6 == True else 0,
                 "ipv4": result.data.wlan.ipv4,
                 "ipv6": result.data.wlan.ipv6
         })
