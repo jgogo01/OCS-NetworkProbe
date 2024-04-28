@@ -13,10 +13,8 @@ async def metrics(target: str):
         result = SpeedtestResult(speedtest["status"], speedtest["message"], speedtest["data"])
         
         #Set Prometheus metrics
-        LAN_ST_SRC_IP.info(result.data.lan.src)
         LAN_ST_DOWNLOAD.set(result.data.lan.speedtest.download)
         LAN_ST_UPLOAD.set(result.data.lan.speedtest.upload)
-        WLAN_ST_SRC_IP.info(result.data.wlan.src)
         WLAN_ST_DOWNLOAD.set(result.data.wlan.speedtest.download)
         WLAN_ST_UPLOAD.set(result.data.wlan.speedtest.upload)
         

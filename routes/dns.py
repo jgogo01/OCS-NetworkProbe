@@ -9,14 +9,16 @@ router = APIRouter()
 @router.get("/metrics/dns/")
 async def metrics(target: str):
     try:
-        general = requests.get("http://{target}/general").json()
+        general = requests.get(f"http://{target}/dns").json()
         result = DNSResult(general["status"], general["message"], general["data"])
         
         #Set Prometheus metrics
-        DNS_HOSTNAME.info(result.data.hostname)
-        DNS_IP_ADDRESS.info(result.data.ip_address)
-        DNS_RESPONSE_TIME.set(result.data.response_time)
-        DNS_STATUS.info(result.status)
+        DNS_STATUS.info({
+            "status": result.status,
+            "hostname": result.data.hostname,
+            "ip_address": result.data.ip_address,
+            "response_time": result.data.response_time
+        })
         
         return {
             "status": 200,

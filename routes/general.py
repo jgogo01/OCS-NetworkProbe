@@ -6,10 +6,10 @@ from utils.prometheus import *
 
 router = APIRouter()
 
-@router.get("/metrics/general/")
+@router.get("/metrics/general")
 async def metrics(target: str):
     try:
-        general = requests.get("http://{target}/general").json()
+        general = requests.get(f"http://{target}/general").json()
         result = GeneralResult(general["status"], general["message"], general["data"])
         
         #Set Prometheus metrics
@@ -21,8 +21,10 @@ async def metrics(target: str):
         RAM_AVAILABLE.set(result.data.system.ram.available)
         RAM_TOTAL.set(result.data.system.ram.total)
         UPTIME.set(result.data.uptime)
-        LATITUDE.info(result.data.location.latitude)
-        LONGITUDE.info(result.data.location.longitude)
+        LOCATION.info({
+            "latitude": result.data.location.latitude,
+            "longitude": result.data.location.longitude
+        })
         
         return {
             "status": 200,

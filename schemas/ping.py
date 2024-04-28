@@ -1,3 +1,19 @@
+class PingResult:
+    def __init__(self, status, message, data):
+        self.status = status
+        self.message = message
+        self.data = PingData(
+            lan=Interface(
+                src=data["lan"]["src"],
+                internal_ping=Ping(**data["lan"]["ping"]["internal"]),
+                external_ping=Ping(**data["lan"]["ping"]["external"])
+            ),
+            wlan=Interface(
+                src=data["wlan"]["src"],
+                internal_ping=Ping(**data["wlan"]["ping"]["internal"]),
+                external_ping=Ping(**data["wlan"]["ping"]["external"])
+            )
+        )
 class Ping:
     def __init__(self, dst, minRTT, maxRTT, avgRTT, packetsSent, packetsReceived, packetsLoss):
         self.dst = dst
@@ -18,20 +34,3 @@ class PingData:
     def __init__(self, lan, wlan):
         self.lan = lan
         self.wlan = wlan
-
-class PingResult:
-    def __init__(self, status, message, data):
-        self.status = status
-        self.message = message
-        self.data = PingData(
-            lan=Interface(
-                src=data["lan"]["src"],
-                internal_ping=Ping(**data["lan"]["ping"]["internal"]),
-                external_ping=Ping(**data["lan"]["ping"]["external"])
-            ),
-            wlan=Interface(
-                src=data["wlan"]["src"],
-                internal_ping=Ping(**data["wlan"]["ping"]["internal"]),
-                external_ping=Ping(**data["wlan"]["ping"]["external"])
-            )
-        )
