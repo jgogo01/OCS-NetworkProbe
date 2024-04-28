@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Response
+from prometheus_client import generate_latest
 import requests
 from schemas.ip import IPResult
 from utils.prometheus import *
@@ -24,11 +25,10 @@ async def metrics(target: str):
             }
         })
         
-        return {
-            "status": 200,
-            "message": "Updated Prometheus metrics",
-            "data": {}
-        }
+        return Response(
+        media_type="text/plain",
+        content=generate_latest()
+        )
     except Exception as e:
         return {
             "status": 500,

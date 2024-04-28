@@ -13,6 +13,7 @@ LOCATION = prom.Info("LOCATION", "Location Information")
 
 # DNS Metrics
 DNS_STATUS = prom.Info("DNS_STATUS", "DNS Status")
+DNS_RESPONSE_TIME = prom.Gauge("DNS_RESPONSE_TIME", "DNS Response Time")
 
 # IP Metrics
 IP_ADDRESS = prom.Info("IP_ADDRESS", "IP Address")

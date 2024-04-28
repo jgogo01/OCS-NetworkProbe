@@ -1,8 +1,8 @@
 import requests
 from schemas.ping import PingResult
-from fastapi import APIRouter
+from fastapi import APIRouter, Response
 from utils.prometheus import *
-
+from prometheus_client import generate_latest
 
 router = APIRouter()
 
@@ -11,7 +11,6 @@ async def metrics(target: str):
     try:
         ping = requests.get(f"http://{target}/ping").json()
         result = PingResult(ping["status"], ping["message"], ping["data"])
-        print(ping["data"])
         
         #Set Prometheus metrics
         PING_DST.info({
@@ -50,11 +49,10 @@ async def metrics(target: str):
         WLAN_EX_PING_PKT_RCVD.set(result.data.wlan.external_ping.packetsReceived)
         WLAN_EX_PING_PKT_LOSS.set(result.data.wlan.external_ping.packetsLoss)
         
-        return {
-            "status": 200,
-            "message": "Updated Prometheus metrics",
-            "data": {}
-        }
+        return Response(
+        media_type="text/plain",
+        content=generate_latest()
+        )
     except Exception as e:
         return {
             "status": 500,

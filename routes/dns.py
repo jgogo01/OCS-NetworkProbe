@@ -1,6 +1,7 @@
 import requests
 from schemas.dns import DNSResult
-from fastapi import APIRouter
+from fastapi import APIRouter, Response
+from prometheus_client import generate_latest
 from utils.prometheus import *
 
 router = APIRouter()
@@ -16,14 +17,13 @@ async def metrics(target: str):
             "status": result.status,
             "hostname": result.data.hostname,
             "ip_address": result.data.ip_address,
-            "response_time": result.data.response_time
         })
+        DNS_RESPONSE_TIME.set(result.data.response_time)
         
-        return {
-            "status": 200,
-            "message": "Updated Prometheus metrics",
-            "data": {}
-        }
+        return Response(
+        media_type="text/plain",
+        content=generate_latest()
+        )
     except Exception as e:
         return {
             "status": 500,

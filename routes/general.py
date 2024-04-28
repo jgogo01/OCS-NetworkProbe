@@ -1,6 +1,7 @@
 import requests
 from schemas.general import GeneralResult
-from fastapi import APIRouter
+from fastapi import APIRouter, Response
+from prometheus_client import generate_latest
 from utils.prometheus import *
 
 router = APIRouter()
@@ -25,11 +26,10 @@ async def metrics(target: str):
             "longitude": result.data.location.longitude
         })
         
-        return {
-            "status": 200,
-            "message": "Updated Prometheus metrics",
-            "data": {}
-        }
+        return Response(
+        media_type="text/plain",
+        content=generate_latest()
+        )
     except Exception as e:
         return {
             "status": 500,
