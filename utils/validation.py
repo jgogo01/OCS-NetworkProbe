@@ -58,4 +58,10 @@ if not LONGITUDE:
     print("LONGITUDE is missing in environment variables.")
     sys.exit(1)
     
+# Check if URL_CHECK_DNS_RESOLVER is missing
+URL_CHECK_DNS_RESOLVER = os.getenv("URL_CHECK_DNS_RESOLVER")
+if not URL_CHECK_DNS_RESOLVER:
+    print("URL_CHECK_DNS_RESOLVER is missing in environment variables.")
+    sys.exit(1)
+    
 print("All required environment variables are present.")
