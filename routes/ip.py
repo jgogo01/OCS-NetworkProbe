@@ -15,12 +15,12 @@ async def metrics(target: str):
         LAN_IP_ADDRESS.info({
                 "status": 1 if result.data.lan.ipv4_and_ipv6 == True else 0,
                 "ipv4": result.data.lan.ipv4,
-                "ipv6": result.data.lan.ipv6
+                "ipv6": result.data.lan.ipv6 if result.data.lan.ipv6 != None else "N/A"
         })
         WLAN_IP_ADDRESS.info({
                 "status": 1 if result.data.wlan.ipv4_and_ipv6 == True else 0,
                 "ipv4": result.data.wlan.ipv4,
-                "ipv6": result.data.wlan.ipv6
+                "ipv6": result.data.wlan.ipv6 if result.data.wlan.ipv6 != None else "N/A"
         })
         
         return Response(
