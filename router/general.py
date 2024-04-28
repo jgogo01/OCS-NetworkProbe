@@ -8,7 +8,7 @@ def get_cpu_temp():
   try:
     CPU_TEMP = CPUTemperature().temperature
   except Exception as e:
-    CPU_TEMP = None
+    CPU_TEMP = 0.0
   return CPU_TEMP
 
 router = APIRouter()
