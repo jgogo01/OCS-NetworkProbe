@@ -21,10 +21,8 @@ async def metrics(target: str):
         RAM_AVAILABLE.set(result.data.system.ram.available)
         RAM_TOTAL.set(result.data.system.ram.total)
         UPTIME.set(result.data.uptime)
-        LOCATION.info({
-            "latitude": result.data.location.latitude,
-            "longitude": result.data.location.longitude
-        })
+        LATITUDE.set(result.data.location.latitude)
+        LONGITUDE.set(result.data.location.longitude)
         
         return Response(
         media_type="text/plain",
