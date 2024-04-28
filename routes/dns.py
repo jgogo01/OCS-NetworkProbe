@@ -6,7 +6,7 @@ from utils.prometheus import *
 
 router = APIRouter()
 
-@router.get("/metrics/general/")
+@router.get("/metrics/dns/")
 async def metrics(target: str):
     try:
         general = requests.get("http://{target}:4000/general").json()

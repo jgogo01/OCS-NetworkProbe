@@ -8,7 +8,6 @@ import uvicorn
 from utils.prometheus import *
 from routes import dns, metrics, general, ip, ping, speedtest
 
-
 #FastAPI
 app = FastAPI()
 app.include_router(metrics.router)
