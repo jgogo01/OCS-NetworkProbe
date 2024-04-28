@@ -8,7 +8,7 @@ router = APIRouter()
 @router.get("/metrics/ip")
 async def metrics(target: str):
     try:
-        request = requests.get(f"http://{target}:4000/ip").json()
+        request = requests.get(f"http://{target}/ip").json()
         result = IPResult(request["status"], request["message"], request["data"])
         
         #Set Prometheus metrics
