@@ -12,8 +12,9 @@ UPTIME = prom.Gauge("UPTIME", "System Uptime")
 LOCATION = prom.Info("LOCATION", "Location Information")
 
 # DNS Metrics
-DNS_STATUS = prom.Info("DNS_STATUS", "DNS Status")
+DNS_STATUS = prom.Gauge("DNS_STATUS", "DNS Resovler Status")
 DNS_RESPONSE_TIME = prom.Gauge("DNS_RESPONSE_TIME", "DNS Response Time")
+DNS_DETAIL = prom.Info("DNS_DETAIL", "DNS Details")
 
 # IP Metrics
 IP_ADDRESS = prom.Info("IP_ADDRESS", "IP Address")

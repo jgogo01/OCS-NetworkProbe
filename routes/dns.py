@@ -13,8 +13,8 @@ async def metrics(target: str):
         result = DNSResult(general["status"], general["message"], general["data"])
         
         #Set Prometheus metrics
-        DNS_STATUS.info({
-            "status": result.status,
+        DNS_STATUS.set({"status": 1 if result.status == True else 0})
+        DNS_DETAIL.info({
             "hostname": result.data.hostname,
             "ip_address": result.data.ip_address,
         })
