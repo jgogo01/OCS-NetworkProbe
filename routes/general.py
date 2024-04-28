@@ -23,6 +23,7 @@ async def metrics(target: str):
         UPTIME.set(result.data.uptime)
         LATITUDE.set(result.data.location.latitude)
         LONGITUDE.set(result.data.location.longitude)
+        INDENTITY.info({"indentity": result.data.identity})
         
         return Response(
         media_type="text/plain",

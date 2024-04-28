@@ -10,9 +10,10 @@ class Location:
         self.longitude = longitude
         
 class Data:
-    def __init__(self, system, uptime, location):
+    def __init__(self, identity, system, uptime, location):
         self.system = System(**system)
         self.uptime = uptime
+        self.identity = identity
         self.location = Location(**location)
         
 class System:

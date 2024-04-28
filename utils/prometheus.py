@@ -1,6 +1,7 @@
 import prometheus_client as prom
 
 #General Metrics
+INDENTITY = prom.Info("INDENTITY", "System Identity")
 CPU_CORE = prom.Gauge("CPU_CORE", "Number of CPU Cores")
 CPU_THREAD = prom.Gauge("CPU_THREAD", "Number of CPU Threads")
 CPU_USAGE = prom.Gauge("CPU_USAGE", "CPU Usage")
