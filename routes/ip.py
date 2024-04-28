@@ -12,17 +12,15 @@ async def metrics(target: str):
         result = IPResult(request["status"], request["message"], request["data"])
         
         #Set Prometheus metrics
-        IP_ADDRESS.info({
-            "wlan": {
-                "status": result.data.wlan.ipv4_and_ipv6,
-                "ipv4": result.data.wlan.ipv4,
-                "ipv6": result.data.wlan.ipv6
-            },
-            "lan" : {
+        LAN_IP_ADDRESS.info({
                 "status": result.data.lan.ipv4_and_ipv6,
                 "ipv4": result.data.lan.ipv4,
                 "ipv6": result.data.lan.ipv6
-            }
+        })
+        WLAN_IP_ADDRESS.info({
+                "status": result.data.wlan.ipv4_and_ipv6,
+                "ipv4": result.data.wlan.ipv4,
+                "ipv6": result.data.wlan.ipv6
         })
         
         return Response(

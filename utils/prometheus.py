@@ -17,7 +17,8 @@ DNS_RESPONSE_TIME = prom.Gauge("DNS_RESPONSE_TIME", "DNS Response Time")
 DNS_DETAIL = prom.Info("DNS_DETAIL", "DNS Details")
 
 # IP Metrics
-IP_ADDRESS = prom.Info("IP_ADDRESS", "IP Address")
+LAN_IP_ADDRESS = prom.Info("LAN_IP_ADDRESS", "LAN IP Address")
+WLAN_IP_ADDRESS = prom.Info("WLAN_IP_ADDRESS", "WLAN IP Address")
 
 # Speedtest Metrics
 LAN_ST_DOWNLOAD = prom.Gauge("LAN_DOWNLOAD", "LAN Download Speed")
