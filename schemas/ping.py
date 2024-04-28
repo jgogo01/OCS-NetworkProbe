@@ -15,9 +15,9 @@ class Interface:
         self.external_ping = external_ping
 
 class PingData:
-    def __init__(self, lan, wifi):
+    def __init__(self, lan, wlan):
         self.lan = lan
-        self.wifi = wifi
+        self.wlan = wlan
 
 class PingResult:
     def __init__(self, status, message, data):
@@ -29,9 +29,9 @@ class PingResult:
                 internal_ping=Ping(**data["lan"]["ping"]["internal"]),
                 external_ping=Ping(**data["lan"]["ping"]["external"])
             ),
-            wifi=Interface(
-                src=data["wifi"]["src"],
-                internal_ping=Ping(**data["wifi"]["ping"]["internal"]),
-                external_ping=Ping(**data["wifi"]["ping"]["external"])
+            wlan=Interface(
+                src=data["wlan"]["src"],
+                internal_ping=Ping(**data["wlan"]["ping"]["internal"]),
+                external_ping=Ping(**data["wlan"]["ping"]["external"])
             )
         )

@@ -6,10 +6,17 @@ from routes import metrics
 import nest_asyncio
 import uvicorn
 from utils.prometheus import *
+from routes import dns, metrics, general, ip, ping, speedtest
+
 
 #FastAPI
 app = FastAPI()
 app.include_router(metrics.router)
+app.include_router(dns.router)
+app.include_router(general.router)
+app.include_router(ip.router)
+app.include_router(ping.router)
+app.include_router(speedtest.router)
 
 @app.get("/")
 async def main():

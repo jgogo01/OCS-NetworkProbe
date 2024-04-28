@@ -8,14 +8,14 @@ class Data:
   def __init__(self, data):
     self.timestamp = data["timeStamp"]
     self.lan = LAN(data["lan"])
-    self.wifi = WIFI(data["wifi"])
+    self.wlan = WLAN(data["wlan"])
 
 class LAN:
   def __init__(self, lan_data):
     self.src = lan_data["src"]
     self.speedtest = SpeedTest(lan_data["speedtest"])
 
-class WIFI:
+class WLAN:
   def __init__(self, wifi_data):
     self.src = wifi_data["src"]
     self.speedtest = SpeedTest(wifi_data["speedtest"])
