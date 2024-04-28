@@ -23,6 +23,7 @@ async def main():
     CPU_TEMP = get_cpu_temp()
     
     data = {
+        "identity": os.getenv("IDENTITY"),
         "system": {
           "cpu": {
           "core": psutil.cpu_count(logical=False),

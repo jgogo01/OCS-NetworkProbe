@@ -64,4 +64,10 @@ if not URL_CHECK_DNS_RESOLVER:
     print("URL_CHECK_DNS_RESOLVER is missing in environment variables.")
     sys.exit(1)
     
+# Check if IDENTITY is missing
+IDENTITY = os.getenv("IDENTITY")
+if not IDENTITY:
+    print("IDENTITY is missing in environment variables.")
+    sys.exit(1)
+    
 print("All required environment variables are present.")
