@@ -1,7 +1,6 @@
 import requests
 from schemas.dns import DNSResult
-from fastapi import APIRouter, Response
-from prometheus_client import generate_latest
+from fastapi import APIRouter
 from utils.prometheus import *
 
 router = APIRouter()

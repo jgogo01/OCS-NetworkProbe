@@ -1,7 +1,6 @@
 import requests
 from schemas.ping import PingResult
-from fastapi import APIRouter, Response
-from prometheus_client import generate_latest
+from fastapi import APIRouter
 from utils.prometheus import *
 
 
@@ -44,7 +43,6 @@ async def metrics(target: str):
         WLAN_IN_PING_PKT_SENT.set(result.data.wlan.internal_ping.packetsSent)
         WLAN_IN_PING_PKT_RCVD.set(result.data.wlan.internal_ping.packetsReceived)
         WLAN_IN_PING_PKT_LOSS.set(result.data.wlan.internal_ping.packetsLoss)
-        WLAN_EX_PING_SRC_IP.info({"src": result.data.wlan.src})
         WLAN_EX_PING_MIN.set(result.data.wlan.external_ping.minRTT)
         WLAN_EX_PING_MAX.set(result.data.wlan.external_ping.maxRTT)
         WLAN_EX_PING_AVG.set(result.data.wlan.external_ping.avgRTT)

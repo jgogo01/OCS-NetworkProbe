@@ -1,8 +1,7 @@
 import requests
 from schemas.speedtest import SpeedtestResult
-from fastapi import APIRouter, Response
+from fastapi import APIRouter
 from utils.prometheus import *
-from prometheus_client import generate_latest
 
 router = APIRouter()
 

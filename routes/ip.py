@@ -1,5 +1,4 @@
-from fastapi import APIRouter, Response
-from prometheus_client import generate_latest
+from fastapi import APIRouter
 import requests
 from schemas.ip import IPResult
 from utils.prometheus import *
