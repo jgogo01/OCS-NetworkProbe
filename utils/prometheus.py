@@ -17,7 +17,9 @@ DNS_RESPONSE_TIME = prom.Gauge("DNS_RESPONSE_TIME", "DNS Response Time")
 DNS_DETAIL = prom.Info("DNS_DETAIL", "DNS Details")
 
 # IP Metrics
+LAN_IPV4_AND_IPV6_STATUS = prom.Gauge("LAN_IPV4_AND_IPV6_STATUS", "LAN IPv4 and IPv6 Status")
 LAN_IP_ADDRESS = prom.Info("LAN_IP_ADDRESS", "LAN IP Address")
+WLAN_IPV4_AND_IPV6_STATUS = prom.Gauge("WLAN_IPV4_AND_IPV6_STATUS", "WLAN IPv4 and IPv6 Status")
 WLAN_IP_ADDRESS = prom.Info("WLAN_IP_ADDRESS", "WLAN IP Address")
 
 # Speedtest Metrics
