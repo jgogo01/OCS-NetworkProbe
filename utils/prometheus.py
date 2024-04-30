@@ -10,8 +10,7 @@ RAM_USAGE = prom.Gauge("RAM_USAGE", "RAM Usage")
 RAM_AVAILABLE = prom.Gauge("RAM_AVAILABLE", "RAM Available")
 RAM_TOTAL = prom.Gauge("RAM_TOTAL", "RAM Total")
 UPTIME = prom.Gauge("UPTIME", "System Uptime")
-LATITUDE = prom.Gauge("LATITUDE", "Latitude")
-LONGITUDE = prom.Gauge("LONGITUDE", "Longitude")
+LOCATION = prom.Info("LOCATION", "System Location")
 
 # DNS Metrics
 DNS_STATUS = prom.Gauge("DNS_STATUS", "DNS Resovler Status")
