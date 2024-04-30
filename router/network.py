@@ -43,9 +43,9 @@ def check_dns_resolution(hostname, interface=None):
 
         end_time = time.time()
         response_time = end_time - start_time
-        return True, hostname, ip_address, response_time
+        return DNS(True, hostname, ip_address, response_time)
     except socket.gaierror:
-        return False, hostname, None, None
+        return DNS(False, hostname, None, None)
 
 router = APIRouter()
 
