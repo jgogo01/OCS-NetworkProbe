@@ -33,18 +33,19 @@ def check_dns_resolution(hostname, interface=None):
     try:
         start_time = time.time()
         
-        # Resolve DNS with specified network interface
+        # Create a socket and bind it to the specified interface if provided
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         if interface:
-            addr_info = socket.getaddrinfo(hostname, None, 0, socket.SOCK_STREAM, socket.IPPROTO_TCP, socket.AI_ADDRCONFIG, interface=socket.if_nametoindex(interface))
-            ip_address = addr_info[0][4][0]
-        else:
-            ip_address = socket.gethostbyname(hostname)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_BINDTODEVICE, bytes(interface, "utf-8"))
+        
+        # Resolve DNS
+        ip_address = socket.gethostbyname(hostname)
 
         end_time = time.time()
         response_time = end_time - start_time
-        return DNS(True, hostname, ip_address, response_time)
+        return True, hostname, ip_address, response_time
     except socket.gaierror:
-        return DNS(False, hostname, None, None)
+        return False, hostname, None, None
 
 router = APIRouter()
 
