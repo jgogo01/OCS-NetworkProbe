@@ -5,7 +5,7 @@ sys.dont_write_bytecode = True
 from utils.validation import *
 from utils.setup import *
 from fastapi import FastAPI
-from router import ping, speedtest, nic, general, ip, dns
+from router import ping, speedtest, nic, general, network
 import nest_asyncio
 import uvicorn
 from dotenv import load_dotenv
@@ -18,8 +18,7 @@ app.include_router(ping.router)
 app.include_router(speedtest.router)
 app.include_router(nic.router)
 app.include_router(general.router)
-app.include_router(dns.router)
-app.include_router(ip.router)
+app.include_router(network.router)
 
 @app.get("/")
 async def main():
