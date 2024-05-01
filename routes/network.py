@@ -30,6 +30,7 @@ async def metrics(target: str):
 
         ## IP
         IP_STATUS.info({
+            "identity": general.data.identity,
             "lan_ipv4": network.data.lan.ipv4 if network.data.lan.ipv4 != None else "",
             "lan_ipv6": network.data.lan.ipv6 if network.data.lan.ipv6 != None else "",
             "wlan_ipv4": network.data.wlan.ipv4 if network.data.wlan.ipv4 != None else "",
