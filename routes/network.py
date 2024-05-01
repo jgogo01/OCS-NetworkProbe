@@ -7,7 +7,7 @@ from utils.network import *
 
 router = APIRouter()
 
-@router.get("/metrics/map/")
+@router.get("/metrics/network/")
 async def metrics(target: str):
     try:
         #Get network
