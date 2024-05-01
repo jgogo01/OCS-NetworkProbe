@@ -16,21 +16,15 @@ async def metrics(target: str):
         
         #Set Prometheus metrics
         ## DNS
-        DNS_STATUS.set({
-            1 if network.data.lan.dns.status and
-                 network.data.wlan.dns.status else 0
+        DNS_STATUS.info({
+            "dns_status": 1 if network.data.lan.dns.status and
+            network.data.wlan.dns.status else 0,
+            "lan_dns": 1 if network.data.lan.dns.status else 0,
+            "wlan_dns": 1 if network.data.wlan.dns.status else 0,
         })
-        LAN_DNS_STATUS.set({
-            1 if network.data.lan.dns.status else 0
-        })
-        WLAN_DNS_STATUS.set({
-            1 if network.data.wlan.dns.status else 0
-        })
-        LAN_DNS_RESPONSE_TIME.set({
-            network.data.lan.dns.response_time
-        })
-        WLAN_DNS_RESPONSE_TIME.set({
-            network.data.wlan.dns.response_time
+        DNS_RESPONSE_TIME.info({
+            "lan_dns_response_time": network.data.lan.dns.response_time,
+            "wlan_dns_response_time": network.data.wlan.dns.response_time
         })
         
         ## IP
@@ -40,13 +34,13 @@ async def metrics(target: str):
             "wlan_ipv4": network.data.wlan.ipv4,
             "wlan_ipv6": network.data.wlan.ipv6
         })
-        LAN_IPV4_AND_IPV6_STATUS.set({
-            1 if network.data.lan.ipv4 and
-                 network.data.lan.ipv6 else 0
-        })
-        WLAN_IPV4_AND_IPV6_STATUS.set({
-            1 if network.data.wlan.ipv4 and
-                 network.data.wlan.ipv6 else 0
+        IP_STATUS.info({
+            "lan_ipv4": 1 if network.data.lan.ipv4 else 0,
+            "lan_ipv6": 1 if network.data.lan.ipv6 else 0,
+            "wlan_ipv4": 1 if network.data.wlan.ipv4 else 0,
+            "wlan_ipv6": 1 if network.data.wlan.ipv6 else 0,
+            "lan_ipv4_and_ipv6": 1 if network.data.lan.ipv4_and_ipv6 else 0,
+            "wlan_ipv4_and_ipv6": 1 if network.data.wlan.ipv4_and_ipv6 else 0,
         })
 
         return Response(
