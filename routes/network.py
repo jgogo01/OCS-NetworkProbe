@@ -23,8 +23,8 @@ async def metrics(target: str):
             "wlan_dns": "1" if network.data.wlan.dns.status else "0"
         })
         DNS_RESPONSE_TIME.info({
-            "lan_dns_response_time": network.data.lan.dns.response_time,
-            "wlan_dns_response_time": network.data.wlan.dns.response_time
+            "lan_dns_response_time": f"{network.data.lan.dns.response_time}",
+            "wlan_dns_response_time": f"{network.data.wlan.dns.response_time}"
         })
         
         ## IP
