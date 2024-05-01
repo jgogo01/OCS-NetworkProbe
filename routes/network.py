@@ -19,7 +19,7 @@ async def metrics(target: str):
         #Set Prometheus metrics
         ## DNS
         DNS_STATUS.info({
-            "indentity": general.data.identity,
+            "identity": general.data.identity,
             "dns_status": "True" if network.data.lan.dns.status and
             network.data.wlan.dns.status else "False",
             "lan_dns": "True" if network.data.lan.dns.status else "False",
