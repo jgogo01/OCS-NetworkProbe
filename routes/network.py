@@ -20,10 +20,13 @@ async def metrics(target: str):
         ## DNS
         DNS_STATUS.info({
             "identity": general.data.identity,
-            "dns_status": "True" if network.data.lan.dns.status and
-            network.data.wlan.dns.status else "False",
-            "lan_dns": "True" if network.data.lan.dns.status else "False",
-            "wlan_dns": "True" if network.data.wlan.dns.status else "False",
+            "status": "True" if network.data.lan.dns.status and
+                                    network.data.wlan.dns.status else "False",
+        })
+        DNS_DETAIL.info({
+            "identity": general.data.identity,
+            "lan_dns": network.data.lan.dns.ip_address if network.data.lan.dns.ip_address != None else "",
+            "wlan_dns": network.data.wlan.dns.ip_address if network.data.wlan.dns.ip_address != None else "",
             "lan_dns_response_time": f"{network.data.lan.dns.response_time}",
             "wlan_dns_response_time": f"{network.data.wlan.dns.response_time}"
         })
@@ -31,16 +34,14 @@ async def metrics(target: str):
         ## IP
         IP_STATUS.info({
             "identity": general.data.identity,
+            "status": "True" if network.data.lan.ipv4_and_ipv6 and network.data.wlan.ipv4_and_ipv6 else "False"
+        })
+        IP_DETAIL.info({
+            "identity": general.data.identity,
             "lan_ipv4": network.data.lan.ipv4 if network.data.lan.ipv4 != None else "",
             "lan_ipv6": network.data.lan.ipv6 if network.data.lan.ipv6 != None else "",
             "wlan_ipv4": network.data.wlan.ipv4 if network.data.wlan.ipv4 != None else "",
-            "wlan_ipv6": network.data.wlan.ipv6 if network.data.wlan.ipv6 != None else "",
-            "lan_ipv4": "1" if network.data.lan.ipv4 != None else "0",
-            "lan_ipv6": "1" if network.data.lan.ipv6 != None else "0",
-            "wlan_ipv4": "1" if network.data.wlan.ipv4 != None else "0",
-            "wlan_ipv6": "1" if network.data.wlan.ipv6 != None else "0",
-            "lan_ipv4_and_ipv6": "1" if network.data.lan.ipv4_and_ipv6 else "0",
-            "wlan_ipv4_and_ipv6": "1" if network.data.wlan.ipv4_and_ipv6 else "0",
+            "wlan_ipv6": network.data.wlan.ipv6 if network.data.wlan.ipv6 != None else ""
         })
 
         return Response(
