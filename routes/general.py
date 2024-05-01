@@ -2,7 +2,7 @@ import requests
 from schemas.general import GeneralResult
 from fastapi import APIRouter, Response
 from prometheus_client import generate_latest
-from utils.prometheus import *
+from utils.general import *
 
 router = APIRouter()
 
@@ -21,7 +21,6 @@ async def metrics(target: str):
         RAM_AVAILABLE.set(result.data.system.ram.available)
         RAM_TOTAL.set(result.data.system.ram.total)
         UPTIME.set(result.data.uptime)
-        LOCATION.info({"latitude": result.data.location.latitude, "longitude": result.data.location.longitude})
         INDENTITY.info({"indentity": result.data.identity})
         
         return Response(

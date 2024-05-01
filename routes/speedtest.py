@@ -2,7 +2,7 @@ import requests
 from schemas.speedtest import SpeedtestResult
 from fastapi import APIRouter, Response
 from prometheus_client import generate_latest
-from utils.prometheus import *
+from utils.speedtest import * 
 
 router = APIRouter()
 
@@ -20,7 +20,7 @@ async def metrics(target: str):
         
         return Response(
         media_type="text/plain",
-        content=generate_latest()
+        content=generate_latest(registry=speedtest_registry)
         )
     except Exception as e:
         return {

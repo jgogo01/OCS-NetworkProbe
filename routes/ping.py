@@ -1,7 +1,7 @@
 import requests
 from schemas.ping import PingResult
 from fastapi import APIRouter, Response
-from utils.prometheus import *
+from utils.ping import *
 from prometheus_client import generate_latest
 
 router = APIRouter()
@@ -49,7 +49,7 @@ async def metrics(target: str):
         
         return Response(
         media_type="text/plain",
-        content=generate_latest()
+        content=generate_latest(registry=ping_registry)
         )
     except Exception as e:
         return {
