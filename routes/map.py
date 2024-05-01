@@ -17,15 +17,17 @@ async def metrics(target: str):
         #Schema
         general = GeneralResult(requestGeneral["status"], requestGeneral["message"], requestGeneral["data"])
         network = NetworkResult(requestNetwork["status"], requestNetwork["message"], requestNetwork["data"])
+        checkStatus = network.data.lan.dns.status and network.data.wlan.dns.status and network.data.lan.ipv4_and_ipv6 and network.data.wlan.ipv4_and_ipv6
         
         GEO_MAP.info({
             "indentity": general.data.identity,
             "latitude": general.data.location.latitude,
             "longitude": general.data.location.longitude,
-            "lan_dns": "1" if network.data.lan.dns.status == True else "0",
-            "wlan_dns": "1" if network.data.wlan.dns.status == True else "0",
-            "lan_ipv4_and_ipv6": "1" if network.data.lan.ipv4_and_ipv6 == True else "0",
-            "wlan_ipv4_and_ipv6": "1" if network.data.wlan.ipv4_and_ipv6 == True else "0"
+            "overall_status": "True" if checkStatus else "False",
+            "lan_dns": "True" if network.data.lan.dns.status == True else "False",
+            "wlan_dns": "True" if network.data.wlan.dns.status == True else "False",
+            "lan_ipv4_and_ipv6": "True" if network.data.lan.ipv4_and_ipv6 == True else "False",
+            "wlan_ipv4_and_ipv6": "True" if network.data.wlan.ipv4_and_ipv6 == True else "False"
             })
 
         return Response(

@@ -17,10 +17,10 @@ async def metrics(target: str):
         #Set Prometheus metrics
         ## DNS
         DNS_STATUS.info({
-            "dns_status": "1" if network.data.lan.dns.status and
-            network.data.wlan.dns.status else "0",
-            "lan_dns": "1" if network.data.lan.dns.status else "0",
-            "wlan_dns": "1" if network.data.wlan.dns.status else "0"
+            "dns_status": "True" if network.data.lan.dns.status and
+            network.data.wlan.dns.status else "False",
+            "lan_dns": "True" if network.data.lan.dns.status else "False",
+            "wlan_dns": "True" if network.data.wlan.dns.status else "False"
         })
         DNS_RESPONSE_TIME.info({
             "lan_dns_response_time": f"{network.data.lan.dns.response_time}",
