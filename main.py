@@ -35,5 +35,6 @@ if not os.getenv("WORKERS"):
 workers = int(os.getenv("WORKERS"))
 
 #Uvicorn Server
-nest_asyncio.apply()
-uvicorn.run("main:app", port=4000, host="0.0.0.0", workers=workers)
+if __name__ == "__main__":
+    nest_asyncio.apply()
+    uvicorn.run("main:app", port=4000, host="0.0.0.0", workers=workers)
