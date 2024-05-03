@@ -5,6 +5,7 @@ from fastapi import FastAPI
 import nest_asyncio
 import uvicorn
 from routes import general, ping, speedtest, network, map
+import os
 
 #FastAPI
 app = FastAPI()
@@ -25,7 +26,11 @@ async def main():
         "message": message,
         "data": data
     }
+    
+#Check Environment Variables
+if not os.getenv("WORKERS"):
+    os.environ["WORKERS"] = "1"
 
 #Uvicorn Server
 nest_asyncio.apply()
-uvicorn.run(app, port=4000, host="0.0.0.0", workers=50)
+uvicorn.run("main:app", port=4000, host="0.0.0.0", workers=os.getenv("WORKERS"))
