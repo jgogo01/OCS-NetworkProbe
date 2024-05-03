@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 import psutil
-from gpiozero import CPUTemperature
+from gpiozero import CPUTemperature, Device
 import os
 import time
 
@@ -10,6 +10,9 @@ def get_cpu_temp():
   except Exception as e:
     CPU_TEMP = 0.0
   return CPU_TEMP
+
+# การตั้งค่าให้ GPIOZero ใช้โหมดการทำงานของ Pin เป็น mock
+Device.pin_factory = None
 
 router = APIRouter()
 
