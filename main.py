@@ -27,14 +27,8 @@ async def main():
         "data": data
     }
     
-#Check Environment Variables
-if not os.getenv("WORKERS"):
-    print("ENV WORKERS not found, using default value of 1")
-    workers = 1
-
-workers = int(os.getenv("WORKERS"))
 
 #Uvicorn Server
 if __name__ == "__main__":
     nest_asyncio.apply()
-    uvicorn.run("main:app", port=4000, host="0.0.0.0", workers=workers)
+    uvicorn.run("main:app", port=4000, host="0.0.0.0")
