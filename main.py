@@ -35,4 +35,4 @@ async def main():
 #Uvicorn Server
 if __name__ == "__main__":
     nest_asyncio.apply()
-    uvicorn.run("main:app", port=4000, host="0.0.0.0", workers=5)
+    uvicorn.run("main:app", port=4000, host="0.0.0.0")
