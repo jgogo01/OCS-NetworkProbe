@@ -4,6 +4,7 @@ from schemas.network import NetworkResult
 from fastapi import APIRouter, Response
 from prometheus_client import generate_latest
 from utils.network import *
+import json
 
 router = APIRouter()
 
@@ -19,10 +20,10 @@ async def metrics(target: str):
         #Set Prometheus metrics
         ## DNS
         DNS_STATUS.info({
-            "identity": general.data.identity,
-            "status": "True" if network.data.lan.dns.status and
-                                    network.data.wlan.dns.status else "False",
+            general.data.identity: "True" if network.data.lan.dns.status and
+                                network.data.wlan.dns.status else "False",
         })
+        
         DNS_DETAIL.info({
             "identity": general.data.identity,
             "lan_dns": network.data.lan.dns.ip_address if network.data.lan.dns.ip_address != None else "",
@@ -33,15 +34,14 @@ async def metrics(target: str):
 
         ## IP
         IP_STATUS.info({
-            "identity": general.data.identity,
-            "status": "True" if network.data.lan.ipv4_and_ipv6 and network.data.wlan.ipv4_and_ipv6 else "False"
+            general.data.identity: "True" if network.data.lan.ipv4_and_ipv6 and network.data.wlan.ipv4_and_ipv6 else "False"
         })
+        
         IP_DETAIL.info({
-            "identity": general.data.identity,
-            "lan_ipv4": network.data.lan.ipv4 if network.data.lan.ipv4 != None else "",
-            "lan_ipv6": network.data.lan.ipv6 if network.data.lan.ipv6 != None else "",
-            "wlan_ipv4": network.data.wlan.ipv4 if network.data.wlan.ipv4 != None else "",
-            "wlan_ipv6": network.data.wlan.ipv6 if network.data.wlan.ipv6 != None else ""
+                "lan_ipv4": network.data.lan.ipv4 if network.data.lan.ipv4 != None else "",
+                "lan_ipv6": network.data.lan.ipv6 if network.data.lan.ipv6 != None else "",
+                "wlan_ipv4": network.data.wlan.ipv4 if network.data.wlan.ipv4 != None else "",
+                "wlan_ipv6": network.data.wlan.ipv6 if network.data.wlan.ipv6 != None else ""
         })
 
         return Response(
