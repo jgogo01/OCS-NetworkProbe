@@ -32,31 +32,33 @@ async def main():
 
     try:
         lanST = speedtestByInterface(os.getenv("INTERFACE_LAN"))
+    except Exception as e:
+        lanST = None
+        
+    try:
         wlanST = speedtestByInterface(os.getenv("INTERFACE_WLAN"))
-
-        data = {
+    except Exception as e:
+        wlanST = None
+        
+    data = {
             "timeStamp": datetime.datetime.now(),
             "lan": {
-                "src": lanST._source_address,
+                "src": lanST._source_address if lanST != None else "0.0.0.0",
                 "speedtest": {
-                    "server": lanST.get_best_server(),
-                    "download": bytesToMb(lanST.download()),
-                    "upload": bytesToMb(lanST.upload()),
+                    "server": lanST.get_best_server() if lanST != None else {},
+                    "download": bytesToMb(lanST.download()) if lanST != None else 0,
+                    "upload": bytesToMb(lanST.upload()) if lanST != None else 0,
                 }
             },
             "wlan": {
-                "src": wlanST._source_address,
+                "src": wlanST._source_address if wlanST != None else "0.0.0.0",
                 "speedtest": {
-                    "server": wlanST.get_best_server(),
+                    "server": wlanST.get_best_server() if wlanST != None else {},
                     "download": bytesToMb(wlanST.download()),
-                    "upload": bytesToMb(wlanST.upload()),
+                    "upload": bytesToMb(wlanST.upload())
                 }
             }
         }
-    except Exception as e:
-        status = 500
-        message = str(e)
-        data = None
 
     return {
         "status": status,
