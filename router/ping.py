@@ -34,30 +34,36 @@ async def main():
 
     try:
         lan_ping = ping_by_interface(os.getenv("INTERFACE_LAN"))
+    except Exception as e:
+        lan_ping = None
+    
+    try:
         wlan_ping = ping_by_interface(os.getenv("INTERFACE_WLAN"))
-
-        data = {
+    except Exception as e:
+        wlan_ping = None
+    
+    data = {
             "timeStamp": datetime.datetime.now(),
             "lan": {
-                "src": lan_ping.source,
+                "src": lan_ping.source if lan_ping != None else "0.0.0.0",
                 "ping": {
                     "internal": {
-                        "dst": lan_ping.internal.address,
-                        "minRTT": lan_ping.internal.min_rtt,
-                        "maxRTT": lan_ping.internal.max_rtt,
-                        "avgRTT": lan_ping.internal.avg_rtt,
-                        "packetsSent": lan_ping.internal.packets_sent,
-                        "packetsReceived": lan_ping.internal.packets_received,
-                        "packetsLoss": lan_ping.internal.packet_loss
+                        "dst": lan_ping.internal.address if lan_ping != None else "0.0.0.0",
+                        "minRTT": lan_ping.internal.min_rtt if lan_ping != None else 0,
+                        "maxRTT": lan_ping.internal.max_rtt if lan_ping != None else 0,
+                        "avgRTT": lan_ping.internal.avg_rtt if lan_ping != None else 0,
+                        "packetsSent": lan_ping.internal.packets_sent if lan_ping != None else 0,
+                        "packetsReceived": lan_ping.internal.packets_received if lan_ping != None else 0,
+                        "packetsLoss": lan_ping.internal.packet_loss if lan_ping != None else 0
                     },
                     "external": {
-                        "dst": lan_ping.external.address,
-                        "minRTT": lan_ping.external.min_rtt,
-                        "maxRTT": lan_ping.external.max_rtt,
-                        "avgRTT": lan_ping.external.avg_rtt,
-                        "packetsSent": lan_ping.external.packets_sent,
-                        "packetsReceived": lan_ping.external.packets_received,
-                        "packetsLoss": lan_ping.external.packet_loss
+                        "dst": lan_ping.external.address if lan_ping != None else "0.0.0.0",
+                        "minRTT": lan_ping.external.min_rtt if lan_ping != None else 0,
+                        "maxRTT": lan_ping.external.max_rtt if lan_ping != None else 0,
+                        "avgRTT": lan_ping.external.avg_rtt if lan_ping != None else 0,
+                        "packetsSent": lan_ping.external.packets_sent if lan_ping != None else 0,
+                        "packetsReceived": lan_ping.external.packets_received if lan_ping != None else 0,
+                        "packetsLoss": lan_ping.external.packet_loss if lan_ping != None else 0
                     }
                 }
             },
@@ -65,29 +71,26 @@ async def main():
                 "src": wlan_ping.source,
                 "ping": {
                     "internal": {
-                        "dst": wlan_ping.internal.address,
-                        "minRTT": wlan_ping.internal.min_rtt,
-                        "maxRTT": wlan_ping.internal.max_rtt,
-                        "avgRTT": wlan_ping.internal.avg_rtt,
-                        "packetsSent": wlan_ping.internal.packets_sent,
-                        "packetsReceived": wlan_ping.internal.packets_received,
-                        "packetsLoss": wlan_ping.internal.packet_loss
+                        "dst": wlan_ping.internal.address if wlan_ping != None else "0.0.0.0",
+                        "minRTT": wlan_ping.internal.min_rtt if wlan_ping != None else 0,
+                        "maxRTT": wlan_ping.internal.max_rtt if wlan_ping != None else 0,
+                        "avgRTT": wlan_ping.internal.avg_rtt if wlan_ping != None else 0,
+                        "packetsSent": wlan_ping.internal.packets_sent if wlan_ping != None else 0,
+                        "packetsReceived": wlan_ping.internal.packets_received if wlan_ping != None else 0,
+                        "packetsLoss": wlan_ping.internal.packet_loss if wlan_ping != None else 0
                     },
                     "external": {
-                        "dst": wlan_ping.external.address,
-                        "minRTT": wlan_ping.external.min_rtt,
-                        "maxRTT": wlan_ping.external.max_rtt,
-                        "avgRTT": wlan_ping.external.avg_rtt,
-                        "packetsSent": wlan_ping.external.packets_sent,
-                        "packetsReceived": wlan_ping.external.packets_received,
-                        "packetsLoss": wlan_ping.external.packet_loss
+                        "dst": wlan_ping.external.address if wlan_ping != None else 0,
+                        "minRTT": wlan_ping.external.min_rtt if wlan_ping != None else 0,
+                        "maxRTT": wlan_ping.external.max_rtt if wlan_ping != None else 0,
+                        "avgRTT": wlan_ping.external.avg_rtt if wlan_ping != None else 0,
+                        "packetsSent": wlan_ping.external.packets_sent if wlan_ping != None else 0,
+                        "packetsReceived": wlan_ping.external.packets_received if wlan_ping != None else 0,
+                        "packetsLoss": wlan_ping.external.packet_loss if wlan_ping != None else 0
                     }
                 }
             }
         }
-    except Exception as e:
-        status = 500
-        message = str(e)
 
     return {
         "status": status,
