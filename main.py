@@ -4,14 +4,13 @@ sys.dont_write_bytecode = True
 from fastapi import FastAPI
 import nest_asyncio
 import uvicorn
-from routes import general, ping, speedtest, map
+from routes import general, ping, speedtest
 
 #FastAPI
 app = FastAPI()
 app.include_router(general.router)
 app.include_router(ping.router)
 app.include_router(speedtest.router)
-app.include_router(map.router)
 
 @app.get("/")
 async def main():
