@@ -22,7 +22,7 @@ class WLAN:
 
 class SpeedTest:
   def __init__(self, speedtest_data):
-    self.server = Server(speedtest_data["server"]) if "server" in speedtest_data else None
+    self.server = Server(speedtest_data["server"]) if speedtest_data["server"] != None else ""
     self.download = speedtest_data["download"]
     self.upload = speedtest_data["upload"]
 
