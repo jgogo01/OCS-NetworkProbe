@@ -45,7 +45,7 @@ async def main():
             "lan": {
                 "src": lanST._source_address if lanST != None else None,
                 "speedtest": {
-                    "server": lanST.get_best_server() if lanST != None else {},
+                    "server": lanST.get_best_server() if lanST != None else None,
                     "download": bytesToMb(lanST.download()) if lanST != None else 0,
                     "upload": bytesToMb(lanST.upload()) if lanST != None else 0,
                 }
@@ -53,7 +53,7 @@ async def main():
             "wlan": {
                 "src": wlanST._source_address if wlanST != None else None,
                 "speedtest": {
-                    "server": wlanST.get_best_server() if wlanST != None else {},
+                    "server": wlanST.get_best_server() if wlanST != None else None,
                     "download": bytesToMb(wlanST.download()) if wlanST != None else 0,
                     "upload": bytesToMb(wlanST.upload()) if wlanST != None else 0,
                 }
