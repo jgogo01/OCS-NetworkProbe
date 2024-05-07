@@ -12,17 +12,17 @@ class Data:
 
 class LAN:
   def __init__(self, lan_data):
-    self.src = lan_data["src"]
+    self.src = lan_data["src"] if "src" in lan_data else ""
     self.speedtest = SpeedTest(lan_data["speedtest"])
 
 class WLAN:
   def __init__(self, wifi_data):
-    self.src = wifi_data["src"]
+    self.src = wifi_data["src"] if "src" in wifi_data else ""
     self.speedtest = SpeedTest(wifi_data["speedtest"])
 
 class SpeedTest:
   def __init__(self, speedtest_data):
-    self.server = Server(speedtest_data["server"])
+    self.server = Server(speedtest_data["server"]) if "server" in speedtest_data else None
     self.download = speedtest_data["download"]
     self.upload = speedtest_data["upload"]
 
