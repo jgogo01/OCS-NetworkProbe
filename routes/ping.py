@@ -14,8 +14,8 @@ async def metrics(target: str):
         
         #Set Prometheus metrics
         LAN_PING_DST.info({
-                "internal": result.data.lan.internal_ping.dst,
-                "external": result.data.lan.external_ping.dst
+                "internal": result.data.lan.internal_ping.dst if result.data.lan.internal_ping.dst != None else "",
+                "external": result.data.lan.external_ping.dst if result.data.lan.external_ping.dst != None else ""
         })
         LAN_IN_PING_MIN.set(result.data.lan.internal_ping.minRTT)
         LAN_IN_PING_MAX.set(result.data.lan.internal_ping.maxRTT)
@@ -31,8 +31,8 @@ async def metrics(target: str):
         LAN_EX_PING_PKT_LOSS.set(result.data.lan.external_ping.packetsLoss)
         
         WLAN_PING_DST.info({
-                "internal": result.data.wlan.internal_ping.dst,
-                "external": result.data.wlan.external_ping.dst
+                "internal": result.data.wlan.internal_ping.dst if result.data.wlan.internal_ping.dst != None else "",
+                "external": result.data.wlan.external_ping.dst if result.data.wlan.external_ping.dst != None else ""
         })
         WLAN_IN_PING_MIN.set(result.data.wlan.internal_ping.minRTT)
         WLAN_IN_PING_MAX.set(result.data.wlan.internal_ping.maxRTT)
