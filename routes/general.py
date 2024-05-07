@@ -23,6 +23,33 @@ async def metrics(target: str):
         UPTIME.set(result.data.uptime)
         INDENTITY.info({"indentity": result.data.identity})
         
+        #Set Prometheus metrics
+        ## DNS
+        DNS_STATUS.info({
+            result.data.identity: "True" if result.data.network.lan.dns.status and
+                                result.data.network.wlan.dns.status else "False",
+        })
+        
+        DNS_DETAIL.info({
+            "identity": result.data.identity,
+            "lan_dns": result.data.network.lan.dns.ip_address if result.data.network.lan.dns.ip_address != None else "",
+            "wlan_dns": result.data.network.wlan.dns.ip_address if result.data.network.wlan.dns.ip_address != None else "",
+            "lan_dns_response_time": f"{result.data.network.lan.dns.response_time}",
+            "wlan_dns_response_time": f"{result.data.network.wlan.dns.response_time}"
+        })
+
+        ## IP
+        IP_STATUS.info({
+            result.data.identity: "True" if result.data.network.lan.ipv4_and_ipv6 and result.data.network.wlan.ipv4_and_ipv6 else "False"
+        })
+        
+        IP_DETAIL.info({
+                "lan_ipv4": result.data.network.lan.ipv4 if result.data.network.lan.ipv4 != None else "",
+                "lan_ipv6": result.data.network.lan.ipv6 if result.data.network.lan.ipv6 != None else "",
+                "wlan_ipv4": result.data.network.wlan.ipv4 if result.data.network.wlan.ipv4 != None else "",
+                "wlan_ipv6": result.data.network.wlan.ipv6 if result.data.network.wlan.ipv6 != None else ""
+        })
+        
         return Response(
         media_type="text/plain",
         content=generate_latest()

@@ -10,11 +10,12 @@ class Location:
         self.longitude = longitude
         
 class Data:
-    def __init__(self, identity, system, uptime, location):
+    def __init__(self, identity, system, uptime, location, network):
+        self.identity = identity
         self.system = System(**system)
         self.uptime = uptime
-        self.identity = identity
         self.location = Location(**location)
+        self.network = Network(**network)
         
 class System:
     def __init__(self, cpu, ram):
@@ -33,3 +34,29 @@ class RAM:
         self.usage = usage
         self.available = available
         self.total = total
+        
+class Network:
+    def __init__(self, lan, wlan):
+        self.lan = LAN(**lan)
+        self.wlan = WLAN(**wlan)
+
+class LAN:
+    def __init__(self, ipv4_and_ipv6, ipv4, ipv6, dns):
+        self.ipv4_and_ipv6 = ipv4_and_ipv6
+        self.ipv4 = ipv4
+        self.ipv6 = ipv6
+        self.dns = DNS(**dns)
+        
+class WLAN:
+    def __init__(self, ipv4_and_ipv6, ipv4, ipv6, dns):
+        self.ipv4_and_ipv6 = ipv4_and_ipv6
+        self.ipv4 = ipv4
+        self.ipv6 = ipv6
+        self.dns = DNS(**dns)
+
+class DNS:
+    def __init__(self, status, hostname, ip_address, response_time):
+        self.status = status
+        self.hostname = hostname
+        self.ip_address = ip_address
+        self.response_time = response_time

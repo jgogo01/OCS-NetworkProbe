@@ -12,3 +12,9 @@ RAM_USAGE = prom.Gauge("RAM_USAGE", "RAM Usage", registry=general_registry)
 RAM_AVAILABLE = prom.Gauge("RAM_AVAILABLE", "RAM Available", registry=general_registry)
 RAM_TOTAL = prom.Gauge("RAM_TOTAL", "RAM Total", registry=general_registry)
 UPTIME = prom.Gauge("UPTIME", "System Uptime", registry=general_registry)
+# DNS Metrics
+DNS_STATUS = prom.Info("DNS_STATUS", "DNS Resovler Status", registry=general_registry)
+DNS_DETAIL = prom.Info("DNS_DETAIL", "DNS Resolver Details", registry=general_registry)
+# IP Metrics
+IP_STATUS = prom.Info("IP_STATUS", "IP Address Status", registry=general_registry)
+IP_DETAIL = prom.Info("IP_DETAIL", "IP Address Details", registry=general_registry)
