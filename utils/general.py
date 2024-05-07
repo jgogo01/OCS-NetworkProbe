@@ -18,3 +18,5 @@ DNS_DETAIL = prom.Info("DNS_DETAIL", "DNS Resolver Details", registry=general_re
 # IP Metrics
 IP_STATUS = prom.Info("IP_STATUS", "IP Address Status", registry=general_registry)
 IP_DETAIL = prom.Info("IP_DETAIL", "IP Address Details", registry=general_registry)
+# Geo Metrics
+GEO_MAP = prom.Info("GEO_MAP", "Geo Map", registry=general_registry)
