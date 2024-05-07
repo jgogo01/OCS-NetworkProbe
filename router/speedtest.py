@@ -43,7 +43,7 @@ async def main():
     data = {
             "timeStamp": datetime.datetime.now(),
             "lan": {
-                "src": lanST._source_address if lanST != None else "0.0.0.0",
+                "src": lanST._source_address if lanST != None else None,
                 "speedtest": {
                     "server": lanST.get_best_server() if lanST != None else {},
                     "download": bytesToMb(lanST.download()) if lanST != None else 0,
@@ -51,11 +51,11 @@ async def main():
                 }
             },
             "wlan": {
-                "src": wlanST._source_address if wlanST != None else "0.0.0.0",
+                "src": wlanST._source_address if wlanST != None else None,
                 "speedtest": {
                     "server": wlanST.get_best_server() if wlanST != None else {},
-                    "download": bytesToMb(wlanST.download()),
-                    "upload": bytesToMb(wlanST.upload())
+                    "download": bytesToMb(wlanST.download()) if wlanST != None else 0,
+                    "upload": bytesToMb(wlanST.upload()) if wlanST != None else 0,
                 }
             }
         }

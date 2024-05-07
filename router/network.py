@@ -3,6 +3,8 @@ from fastapi import APIRouter
 import os
 import socket
 import time
+import dns.resolver
+import platform
 
 def get_interface_ip_addresses(interface):
     try:
@@ -29,23 +31,25 @@ class DNS:
         self.ip_address = ip_address
         self.response_time = response_time
 
-def check_dns_resolution(hostname, interface=None):
+def check_dns_resolver(hostname, src_address):
+    if src_address is None:
+        return DNS(False, None, None, None)
     try:
-        start_time = time.time()
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.bind((src_address, 0))
+        s.settimeout(10)
         
-        # Create a socket and bind it to the specified interface if provided
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        if interface:
-            sock.setsockopt(socket.SOL_SOCKET, socket.SO_BINDTODEVICE, bytes(interface, "utf-8"))
+        start_time = time.time()  # Record start time
+        ip = socket.gethostbyname(hostname)
+        end_time = time.time()    # Record end time
+        response_time = end_time - start_time  # Calculate response time
         
-        # Resolve DNS
-        ip_address = socket.gethostbyname(hostname)
-
-        end_time = time.time()
-        response_time = end_time - start_time
-        return DNS(True, hostname, ip_address, response_time)
-    except socket.gaierror:
-        return DNS(False, hostname, None, None)
+        return DNS(True, hostname, ip, response_time)
+    except socket.error as e:
+        print("Unable to resolve hostname", str(e))
+        return DNS(False, None, None, None)
+    finally:
+        s.close()
 
 router = APIRouter()
 
@@ -58,8 +62,8 @@ async def main():
     try:
         LAN_IPV4, LAN_IPV6 = get_interface_ip_addresses(os.getenv("INTERFACE_LAN"))
         WLAN_IPV4, WLAN_IPV6 = get_interface_ip_addresses(os.getenv("INTERFACE_WLAN"))
-        LAN_DNS = check_dns_resolution(os.getenv("URL_CHECK_DNS_RESOLVER"), os.getenv("INTERFACE_LAN"))
-        WIFI_DNS = check_dns_resolution(os.getenv("URL_CHECK_DNS_RESOLVER"), os.getenv("INTERFACE_WLAN"))
+        LAN_DNS = check_dns_resolver(os.getenv("URL_CHECK_DNS_RESOLVER"), LAN_IPV4)
+        WLAN_DNS = check_dns_resolver(os.getenv("URL_CHECK_DNS_RESOLVER"), WLAN_IPV4)
         
         data = {
             "lan":{
@@ -78,10 +82,10 @@ async def main():
                 "ipv4": WLAN_IPV4,
                 "ipv6": WLAN_IPV6,
                 "dns": {
-                    "status": WIFI_DNS.status,
-                    "hostname": WIFI_DNS.hostname,
-                    "ip_address": WIFI_DNS.ip_address,
-                    "response_time": WIFI_DNS.response_time,
+                    "status": WLAN_DNS.status,
+                    "hostname": WLAN_DNS.hostname,
+                    "ip_address": WLAN_DNS.ip_address,
+                    "response_time": WLAN_DNS.response_time,
                 }
             }
         }

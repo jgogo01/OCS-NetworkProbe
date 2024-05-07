@@ -45,10 +45,10 @@ async def main():
     data = {
             "timeStamp": datetime.datetime.now(),
             "lan": {
-                "src": lan_ping.source if lan_ping != None else "0.0.0.0",
+                "src": lan_ping.source if lan_ping != None else None,
                 "ping": {
                     "internal": {
-                        "dst": lan_ping.internal.address if lan_ping != None else "0.0.0.0",
+                        "dst": lan_ping.internal.address if lan_ping != None else None,
                         "minRTT": lan_ping.internal.min_rtt if lan_ping != None else 0,
                         "maxRTT": lan_ping.internal.max_rtt if lan_ping != None else 0,
                         "avgRTT": lan_ping.internal.avg_rtt if lan_ping != None else 0,
@@ -57,7 +57,7 @@ async def main():
                         "packetsLoss": lan_ping.internal.packet_loss if lan_ping != None else 0
                     },
                     "external": {
-                        "dst": lan_ping.external.address if lan_ping != None else "0.0.0.0",
+                        "dst": lan_ping.external.address if lan_ping != None else None,
                         "minRTT": lan_ping.external.min_rtt if lan_ping != None else 0,
                         "maxRTT": lan_ping.external.max_rtt if lan_ping != None else 0,
                         "avgRTT": lan_ping.external.avg_rtt if lan_ping != None else 0,
@@ -68,10 +68,10 @@ async def main():
                 }
             },
             "wlan": {
-                "src": wlan_ping.source,
+                "src": wlan_ping.source if wlan_ping != None else None,
                 "ping": {
                     "internal": {
-                        "dst": wlan_ping.internal.address if wlan_ping != None else "0.0.0.0",
+                        "dst": wlan_ping.internal.address if wlan_ping != None else None,
                         "minRTT": wlan_ping.internal.min_rtt if wlan_ping != None else 0,
                         "maxRTT": wlan_ping.internal.max_rtt if wlan_ping != None else 0,
                         "avgRTT": wlan_ping.internal.avg_rtt if wlan_ping != None else 0,
