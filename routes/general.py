@@ -27,7 +27,7 @@ async def metrics(target: str):
         
         ## DNS
         DNS_STATUS.info({
-            result.data.identity: "True" if result.data.network.lan.dns.status and
+            f"{result.data.identity}": "True" if result.data.network.lan.dns.status and
                                 result.data.network.wlan.dns.status else "False",
         })
         DNS_DETAIL.info({
@@ -40,7 +40,7 @@ async def metrics(target: str):
 
         ## IP
         IP_STATUS.info({
-            result.data.identity: "True" if result.data.network.lan.ipv4_and_ipv6 and result.data.network.wlan.ipv4_and_ipv6 else "False"
+            f"{result.data.identity}": "True" if result.data.network.lan.ipv4_and_ipv6 and result.data.network.wlan.ipv4_and_ipv6 else "False"
         })
         IP_DETAIL.info({
                 "lan_ipv4": result.data.network.lan.ipv4 if result.data.network.lan.ipv4 != None else "",
