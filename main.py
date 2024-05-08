@@ -9,7 +9,8 @@ from fastapi import FastAPI
 from routers import ping, speedtest, nic, general
 from dotenv import load_dotenv
 from gunicorn.app.base import BaseApplication
-from multiprocessing import cpu_count
+import uvicorn
+import multiprocessing
     
 load_dotenv()
 
@@ -33,26 +34,33 @@ async def main():
     }
 
 # Use Gunicorn with Uvicorn workers
+def number_of_workers():
+    return (multiprocessing.cpu_count() * 2) + 1
+
+
+class StandaloneApplication(BaseApplication):
+    def __init__(self, application: Callable, options: Dict[str, Any] = None):
+        self.options = options or {}
+        self.application = application
+        super().__init__()
+
+    def load_config(self):
+        config = {
+            key: value
+            for key, value in self.options.items()
+            if key in self.cfg.settings and value is not None
+        }
+        for key, value in config.items():
+            self.cfg.set(key.lower(), value)
+
+    def load(self):
+        return self.application
+
+
 if __name__ == "__main__":
-    class StandaloneApplication(BaseApplication):
-        def __init__(self, app, options=None):
-            self.options = options or {}
-            self.application = app
-            super().__init__()
-
-        def load_config(self):
-            for key, value in self.options.items():
-                self.cfg.set(key.lower(), value)
-
-        def load(self):
-            return self.application
-
-    uvicorn_options = {
-        'host': '0.0.0.0',
-        'port': 8000,
-        'log_level': 'info',
-        'workers': cpu_count() * 2 + 1  # Adjust workers as per your requirement
+    options = {
+        "bind": "%s:%s" % ("0.0.0.0", "4000"),
+        "workers": number_of_workers(),
+        "worker_class": "uvicorn.workers.UvicornWorker",
     }
-
-    standalone_app = StandaloneApplication(app, uvicorn_options)
-    standalone_app.run()
+    StandaloneApplication(app, options).run()
