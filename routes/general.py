@@ -3,6 +3,7 @@ from schemas.general import GeneralResult
 from fastapi import APIRouter, Response
 from prometheus_client import generate_latest
 from utils.general import *
+import os
 
 router = APIRouter()
 
@@ -65,6 +66,37 @@ async def metrics(target: str):
         media_type="text/plain",
         content=generate_latest(registry=general_registry)
         )
+    except requests.exceptions.Timeout:
+        try:
+            PROBE_LIST = os.getenv("PROBE_LIST")
+            jsonProbe = PROBE_LIST[target]
+            
+            #Set Prometheus metrics
+            ## General
+            INDENTITY.info(jsonProbe.identity)
+            
+            ## Map
+            GEO_MAP.info({
+                "identity": jsonProbe.identity,
+                "latitude": jsonProbe.latitude,
+                "longitude": jsonProbe.longitude,
+                "overall_status": "False",
+                "lan_dns": "False",
+                "wlan_dns": "False",
+                "lan_ipv4_and_ipv6": "False",
+                "wlan_ipv4_and_ipv6": "False"
+            })
+            
+            return Response(
+            media_type="text/plain",
+            content=generate_latest(registry=general_registry)
+            )
+        except KeyError:
+            return {
+                "status": 408,
+                "message": "Not Found Data in Probe List, Probe is Down",
+                "data": {}
+            }
     except Exception as e:
         return {
             "status": 500,

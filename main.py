@@ -5,6 +5,7 @@ from fastapi import FastAPI
 import nest_asyncio
 import uvicorn
 from routes import general, ping, speedtest
+import os
 
 #FastAPI
 app = FastAPI()
@@ -24,6 +25,11 @@ async def main():
         "data": data
     }
     
+#Check PROBE_LIST in .env
+PROBE_LIST = os.getenv("PROBE_LIST")
+if PROBE_LIST == None:
+    print("PROBE_LIST is not found in .env")
+    sys.exit(1)
 
 #Uvicorn Server
 if __name__ == "__main__":
