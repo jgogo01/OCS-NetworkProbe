@@ -23,7 +23,7 @@ async def metrics(target: str):
         RAM_AVAILABLE.set(result.data.system.ram.available)
         RAM_TOTAL.set(result.data.system.ram.total)
         UPTIME.set(result.data.uptime)
-        INDENTITY.info({"indentity": result.data.identity})
+        IDENTITY.info({"identity": result.data.identity})
         
         ## DNS
         DNS_STATUS.info({
@@ -73,7 +73,7 @@ async def metrics(target: str):
             
             #Set Prometheus metrics
             ## General
-            INDENTITY.info(jsonProbe.identity)
+            IDENTITY.info(jsonProbe.identity)
             
             ## Map
             GEO_MAP.info({

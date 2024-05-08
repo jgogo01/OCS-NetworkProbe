@@ -3,7 +3,7 @@ from prometheus_client import CollectorRegistry
 
 #General Metrics
 general_registry = CollectorRegistry()
-INDENTITY = prom.Info("INDENTITY", "System Identity", registry=general_registry)
+IDENTITY = prom.Info("IDENTITY", "System Identity", registry=general_registry)
 CPU_CORE = prom.Gauge("CPU_CORE", "Number of CPU Cores", registry=general_registry)
 CPU_THREAD = prom.Gauge("CPU_THREAD", "Number of CPU Threads", registry=general_registry)
 CPU_USAGE = prom.Gauge("CPU_USAGE", "CPU Usage", registry=general_registry)
