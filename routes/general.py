@@ -63,7 +63,7 @@ async def metrics(target: str):
         
         return Response(
         media_type="text/plain",
-        content=generate_latest()
+        content=generate_latest(registry=general_registry)
         )
     except Exception as e:
         return {
