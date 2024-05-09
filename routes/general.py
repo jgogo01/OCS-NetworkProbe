@@ -67,7 +67,7 @@ async def metrics(target: str):
         media_type="text/plain",
         content=generate_latest(registry=general_registry)
         )
-    except requests.exceptions.Timeout:
+    except Exception as e:
         try:
             PROBE_LIST = os.getenv("PROBE_LIST")
             jsonTarget = PROBE_LIST[target]
@@ -98,9 +98,3 @@ async def metrics(target: str):
                 "message": "Not Found Data in Probe List, Probe is Down",
                 "data": {}
             }
-    except Exception as e:
-        return {
-            "status": 500,
-            "message": str(e),
-            "data": {}
-        }
