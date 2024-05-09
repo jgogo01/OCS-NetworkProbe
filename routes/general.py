@@ -73,7 +73,7 @@ async def metrics(target: str):
             #Convert to JSON
             jsonProbe = json.loads(PROBE_LIST)
             #Access Value by Key
-            target = jsonProbe["target"]
+            target = jsonProbe[target]
             
             #Set Prometheus metrics
             ## General
