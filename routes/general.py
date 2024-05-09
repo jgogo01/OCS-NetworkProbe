@@ -81,7 +81,7 @@ async def metrics(target: str):
                 "identity": target["identity"],
                 "latitude": target["latitude"],
                 "longitude": target["longitude"],
-                "overall_status": "False",
+                "overall_status": "None",
                 "lan_dns": "False",
                 "wlan_dns": "False",
                 "lan_ipv4_and_ipv6": "False",
