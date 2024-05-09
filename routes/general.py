@@ -70,20 +70,17 @@ async def metrics(target: str):
     except requests.exceptions.Timeout:
         try:
             PROBE_LIST = os.getenv("PROBE_LIST")
-            #Convert to JSON
-            jsonProbe = json.loads(PROBE_LIST)
-            #Access Value by Key
-            target = jsonProbe[target]
+            jsonTarget = PROBE_LIST[target]
             
             #Set Prometheus metrics
             ## General
-            IDENTITY.info(target.identity)
+            IDENTITY.info(jsonTarget["identity"])
             
             ## Map
             GEO_MAP.info({
-                "identity": target.identity,
-                "latitude": target.latitude,
-                "longitude": target.longitude,
+                "identity": target["identity"],
+                "latitude": target["latitude"],
+                "longitude": target["longitude"],
                 "overall_status": "False",
                 "lan_dns": "False",
                 "wlan_dns": "False",
