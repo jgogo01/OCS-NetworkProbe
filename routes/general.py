@@ -68,33 +68,8 @@ async def metrics(target: str):
         content=generate_latest(registry=general_registry)
         )
     except Exception as e:
-        try:
-            PROBE_LIST = os.getenv("PROBE_LIST")
-            jsonTarget = PROBE_LIST[target]
-            
-            #Set Prometheus metrics
-            ## General
-            IDENTITY.info(jsonTarget["identity"])
-            
-            ## Map
-            GEO_MAP.info({
-                "identity": target["identity"],
-                "latitude": target["latitude"],
-                "longitude": target["longitude"],
-                "overall_status": "None",
-                "lan_dns": "False",
-                "wlan_dns": "False",
-                "lan_ipv4_and_ipv6": "False",
-                "wlan_ipv4_and_ipv6": "False"
-            })
-            
-            return Response(
-            media_type="text/plain",
-            content=generate_latest(registry=general_registry)
-            )
-        except KeyError:
-            return {
-                "status": 408,
-                "message": "Not Found Data in Probe List, Probe is Down",
-                "data": {}
-            }
+        return {
+            "status": 500,
+            "message": str(e),
+            "data": {}
+        }

@@ -5,7 +5,6 @@ from fastapi import FastAPI
 import nest_asyncio
 import uvicorn
 from routes import general, ping, speedtest
-import os
 import psutil
 
 #FastAPI
@@ -13,6 +12,8 @@ app = FastAPI()
 app.include_router(general.router)
 app.include_router(ping.router)
 app.include_router(speedtest.router)
+
+load_dotenv()
 
 @app.get("/")
 async def main():
@@ -25,12 +26,6 @@ async def main():
         "message": message,
         "data": data
     }
-    
-#Check PROBE_LIST in .env
-PROBE_LIST = os.getenv("PROBE_LIST")
-if PROBE_LIST == None:
-    print("PROBE_LIST is not found in .env")
-    sys.exit(1)
     
 #Get Worker Count
 WORKER = psutil.cpu_count(logical=True) * 2 + 1
