@@ -15,7 +15,7 @@ async def main():
   
   try: 
     # Get CPU temperature
-    CPU_TEMP = get_cpu_temp()
+    CPU_TEMP = get_cpu_temperature()
     
     # Get IP addresses
     LAN_IPV4, LAN_IPV6 = get_interface_ip_addresses(os.getenv("INTERFACE_LAN"))
