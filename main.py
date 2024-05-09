@@ -6,6 +6,7 @@ import nest_asyncio
 import uvicorn
 from routes import general, ping, speedtest
 import os
+import psutil
 
 #FastAPI
 app = FastAPI()
@@ -30,8 +31,11 @@ PROBE_LIST = os.getenv("PROBE_LIST")
 if PROBE_LIST == None:
     print("PROBE_LIST is not found in .env")
     sys.exit(1)
+    
+#Get Worker Count
+WORKER = psutil.cpu_count(logical=True) * 2 + 1
 
 #Uvicorn Server
 if __name__ == "__main__":
     nest_asyncio.apply()
-    uvicorn.run("main:app", port=4000, host="0.0.0.0")
+    uvicorn.run("main:app", port=4000, host="0.0.0.0", workers=WORKER)
