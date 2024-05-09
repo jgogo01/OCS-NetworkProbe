@@ -13,8 +13,6 @@ app.include_router(general.router)
 app.include_router(ping.router)
 app.include_router(speedtest.router)
 
-load_dotenv()
-
 @app.get("/")
 async def main():
     status = 200
