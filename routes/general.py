@@ -4,6 +4,7 @@ from fastapi import APIRouter, Response
 from prometheus_client import generate_latest
 from utils.general import *
 import os
+import json
 
 router = APIRouter()
 
@@ -69,17 +70,20 @@ async def metrics(target: str):
     except requests.exceptions.Timeout:
         try:
             PROBE_LIST = os.getenv("PROBE_LIST")
-            jsonProbe = PROBE_LIST[target]
+            #Convert to JSON
+            jsonProbe = json.loads(PROBE_LIST)
+            #Access Value by Key
+            target = jsonProbe["target"]
             
             #Set Prometheus metrics
             ## General
-            IDENTITY.info(jsonProbe.identity)
+            IDENTITY.info(target.identity)
             
             ## Map
             GEO_MAP.info({
-                "identity": jsonProbe.identity,
-                "latitude": jsonProbe.latitude,
-                "longitude": jsonProbe.longitude,
+                "identity": target.identity,
+                "latitude": target.latitude,
+                "longitude": target.longitude,
                 "overall_status": "False",
                 "lan_dns": "False",
                 "wlan_dns": "False",
