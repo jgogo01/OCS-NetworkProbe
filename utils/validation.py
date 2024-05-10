@@ -33,18 +33,6 @@ INTERFACE_WLAN = os.getenv("INTERFACE_WLAN")
 if not INTERFACE_WLAN:
     print("INTERFACE_WLAN is missing in environment variables.")
     sys.exit(1)
-
-# Check if SSID is missing
-SSID = os.getenv("SSID")
-if not SSID:
-    print("SSID is missing in environment variables.")
-    sys.exit(1)
-
-# Check if ENCRYPTION is missing
-PASSWORD = os.getenv("PASSWORD")
-if not PASSWORD:
-    print("PASSWORD is missing in environment variables.")
-    sys.exit(1)
     
 # Check if LATITUDE is missing
 LATTITUDE = os.getenv("LATITUDE")

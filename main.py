@@ -4,7 +4,6 @@ import sys
 sys.dont_write_bytecode = True
 
 from utils.validation import *
-from utils.setup import *
 from fastapi import FastAPI
 from routers import ping, speedtest, nic, general
 import nest_asyncio
