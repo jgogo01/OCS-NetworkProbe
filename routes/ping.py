@@ -3,13 +3,19 @@ from schemas.ping import PingResult
 from fastapi import APIRouter, Response
 from utils.ping import *
 from prometheus_client import generate_latest
+from requests.adapters import HTTPAdapter
 
 router = APIRouter()
+
+session = requests.Session()
+adapter = HTTPAdapter(max_retries=None)
+session.mount('http://', adapter)
+session.mount('https://', adapter)
 
 @router.get("/metrics/ping/")
 async def metrics(target: str):
     try:
-        ping = requests.get(f"http://{target}/ping").json()
+        ping = session.get(f"http://{target}/ping").json()
         result = PingResult(ping["status"], ping["message"], ping["data"])
         
         #Set Prometheus metrics

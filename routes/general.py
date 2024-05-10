@@ -3,15 +3,19 @@ from schemas.general import GeneralResult
 from fastapi import APIRouter, Response
 from prometheus_client import generate_latest
 from utils.general import *
-import os
-import json
+from requests.adapters import HTTPAdapter
 
 router = APIRouter()
 
-@router.get("/metrics/general")
+session = requests.Session()
+adapter = HTTPAdapter(max_retries=None)
+session.mount('http://', adapter)
+session.mount('https://', adapter)
+
+@router.get("/metrics/general/")
 async def metrics(target: str):
     try:
-        general = requests.get(f"http://{target}/general").json()
+        general = session.get(f"http://{target}/general").json()
         result = GeneralResult(general["status"], general["message"], general["data"])
         
         #Set Prometheus metrics

@@ -3,13 +3,19 @@ from schemas.speedtest import SpeedtestResult
 from fastapi import APIRouter, Response
 from prometheus_client import generate_latest
 from utils.speedtest import * 
+from requests.adapters import HTTPAdapter
 
 router = APIRouter()
+
+session = requests.Session()
+adapter = HTTPAdapter(max_retries=None)
+session.mount('http://', adapter)
+session.mount('https://', adapter)
 
 @router.get("/metrics/speedtest/")
 async def metrics(target: str):
     try:
-        speedtest = requests.get(f"http://{target}/speedtest").json()
+        speedtest = session.get(f"http://{target}/speedtest").json()
         result = SpeedtestResult(speedtest["status"], speedtest["message"], speedtest["data"])
         
         #Set Prometheus metrics
