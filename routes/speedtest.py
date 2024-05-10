@@ -8,7 +8,7 @@ from requests.adapters import HTTPAdapter
 router = APIRouter()
 
 session = requests.Session()
-adapter = HTTPAdapter(max_retries=None)
+adapter = HTTPAdapter(max_retries=10)
 session.mount('http://', adapter)
 session.mount('https://', adapter)
 
