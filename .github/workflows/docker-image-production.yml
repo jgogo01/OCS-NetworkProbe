@@ -2,7 +2,7 @@ name: Docker Image Production
 
 on:
   push:
-    branches: ["iperf-server"]
+    branches: ["iperf3-server"]
 
 jobs:
   build:
