@@ -4,24 +4,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Check if INTERNAL_GATEWAY is missing
-INTERNAL_GATEWAY = os.getenv("INTERNAL_GATEWAY")
-if not INTERNAL_GATEWAY:
-    print("INTERNAL_GATEWAY is missing in environment variables.")
-    sys.exit(1)
-
-# Check if EXTERNAL_GATEWAY is missing
-EXTERNAL_GATEWAY = os.getenv("EXTERNAL_GATEWAY")
-if not EXTERNAL_GATEWAY:
-    print("EXTERNAL_GATEWAY is missing in environment variables.")
-    sys.exit(1)
-
-# Check if PING_COUNT is missing
-PING_COUNT = os.getenv("PING_COUNT")
-if not PING_COUNT or not PING_COUNT.isdigit():
-    print("PING_COUNT is missing or not a valid number in environment variables.")
-    sys.exit(1)
-
 # Check if INTERFACE_LAN is missing
 INTERFACE_LAN = os.getenv("INTERFACE_LAN")
 if not INTERFACE_LAN:
@@ -34,28 +16,6 @@ if not INTERFACE_WLAN:
     print("INTERFACE_WLAN is missing in environment variables.")
     sys.exit(1)
     
-# Check if LATITUDE is missing
-LATTITUDE = os.getenv("LATITUDE")
-if not LATTITUDE:
-    print("LATITUDE is missing in environment variables.")
-    sys.exit(1)
-    
-# Check if LONGITUDE is missing
-LONGITUDE = os.getenv("LONGITUDE")
-if not LONGITUDE:
-    print("LONGITUDE is missing in environment variables.")
-    sys.exit(1)
-    
-# Check if URL_CHECK_DNS_RESOLVER is missing
-URL_CHECK_DNS_RESOLVER = os.getenv("URL_CHECK_DNS_RESOLVER")
-if not URL_CHECK_DNS_RESOLVER:
-    print("URL_CHECK_DNS_RESOLVER is missing in environment variables.")
-    sys.exit(1)
-    
-# Check if IDENTITY is missing
-IDENTITY = os.getenv("IDENTITY")
-if not IDENTITY:
-    print("IDENTITY is missing in environment variables.")
-    sys.exit(1)
+
     
 print("All required environment variables are present.")
